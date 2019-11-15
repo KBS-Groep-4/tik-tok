@@ -4,7 +4,7 @@ branches:
   only:
     - master
 language: csharp
-dotnet: 2.2.0
+dotnet: 2.2.7
 mono: none
 solution: RoeiJeRot.sln
 addons:
