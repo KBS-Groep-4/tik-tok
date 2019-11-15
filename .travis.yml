@@ -3,25 +3,27 @@
 branches:
   only:
     - master
-
 language: csharp
-solution: TikTok.sln
-os:
-  - linux
-  - windows
-  - osx
-
 dotnet: 2.2.0
 mono: none
-git:
-  depth: 1
-  quiet: true
-
-install:
-- nuget restore TikTok.sln
-- nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
-script:
-  - msbuild /p:Configuration=Release TikTok.sln
-  - dotnet restore
-  - dotnet build
-  - dotnet test
+solution: RoeiJeRot.sln
+addons:
+  snaps:
+    - name: dotnet-sdk
+      classic: true
+      channel: latest/beta
+os:
+  - windows
+stages:
+  - build
+  - test
+jobs:
+  include:
+    - stage: build
+      name: build-solution
+      before_script:
+        - sudo snap alias dotnet-sdk.dotnet dotnet
+      script: dotnet restore && dotnet build
+    - stage: test
+      name: run-tests
+      script: dotnet test ./TikTok.Test/TikTok.Test.csproj 
