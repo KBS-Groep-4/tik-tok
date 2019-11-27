@@ -1,0 +1,22 @@
+﻿<Window x:Class="RoeiJeRot.View.Wpf.reserveringen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoeiJeRot.View.Wpf"
+        mc:Ignorable="d"
+        Title="reserveringen" Height="450" Width="800">
+    <Grid>
+        <Grid DataContext="{StaticResource DeviceViewSource}">
+            <DataGrid x:Name="DeviceDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="0,64,0,0" RowDetailsVisibilityMode="VisibleWhenSelected">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="Id" Binding="{Binding Name}" Header="Name" Width="250"/>
+                    <DataGridTextColumn x:Name="Type" Binding="{Binding DeviceId}" Header="Id" Width="Auto"/>
+                    <DataGridTextColumn x:Name="Status" Binding="{Binding Description}" Header="Description" Width="Auto"/>
+                    <DataGridTextColumn x:Name="Gereserveerd" Binding="{Binding ProductType}" Header="Product Type" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="Add" HorizontalAlignment="Left" Margin="23,25,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.143,-0.057" Click="AddDevice_Click"/>
+        </Grid>
+    </Grid>
+</Window>
