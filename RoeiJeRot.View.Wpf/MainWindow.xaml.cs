@@ -39,5 +39,12 @@ namespace RoeiJeRot.View.Wpf
                 lstUserList.Items.Add(user.FirstName);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            reserveringen r = new reserveringen();
+            r.Activate();
+            r.Show();
+        }
     }
 }
