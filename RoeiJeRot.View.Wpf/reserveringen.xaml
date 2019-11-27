@@ -7,16 +7,17 @@
         mc:Ignorable="d"
         Title="reserveringen" Height="450" Width="800">
     <Grid>
-        <Grid DataContext="{StaticResource DeviceViewSource}">
-            <DataGrid x:Name="DeviceDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="0,64,0,0" RowDetailsVisibilityMode="VisibleWhenSelected">
+        <Grid >
+            <DataGrid ItemsSource="{Binding Items}" x:Name="DeviceDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" RowDetailsVisibilityMode="VisibleWhenSelected">
                 <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="Id" Binding="{Binding Name}" Header="Name" Width="250"/>
-                    <DataGridTextColumn x:Name="Type" Binding="{Binding DeviceId}" Header="Id" Width="Auto"/>
-                    <DataGridTextColumn x:Name="Status" Binding="{Binding Description}" Header="Description" Width="Auto"/>
-                    <DataGridTextColumn x:Name="Gereserveerd" Binding="{Binding ProductType}" Header="Product Type" Width="*"/>
+                    <DataGridTextColumn x:Name="Id" Binding="{Binding Id}" Header="Id" Width="Auto"/>
+                    <DataGridTextColumn x:Name="Type" Binding="{Binding BoatTypeName}" Header="Boat Type" Width="Auto"/>
+                    <DataGridTextColumn x:Name="Status" Binding="{Binding Status}" Header="Status" Width="Auto"/>
+                    <DataGridTextColumn x:Name="Gereserveerd" Binding="{Binding Reserved}" Header="Gereserveerd" Width="*"/>
+                    <DataGridTextColumn x:Name="ReservatieDatum" Binding="{Binding ReservationDate}" Header="Reservatie Datum" Width="*"/>
+                    <DataGridTextColumn x:Name="ReservatieDuratie" Binding="{Binding Duration}" Header="Reservatie Duratie" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Add" HorizontalAlignment="Left" Margin="23,25,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.143,-0.057" Click="AddDevice_Click"/>
-        </Grid>
+    </Grid>
     </Grid>
 </Window>
