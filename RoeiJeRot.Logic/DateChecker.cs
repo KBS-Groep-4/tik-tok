@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RoeiJeRot.Logic.Services
 {
     public static class DateChecker
     {
         /// <summary>
-        /// Checks if two dates overlap.
+        ///     Checks if two dates overlap.
         /// </summary>
-        /// <param name="a_start">Start date of A</param>
-        /// <param name="a_duration">Duration of A</param>
-        /// <param name="b_start">Start date of B</param>
-        /// <param name="b_duration">Duration of B</param>
+        /// <param name="aStart">Start date of A</param>
+        /// <param name="aDuration">Duration of A</param>
+        /// <param name="bStart">Start date of B</param>
+        /// <param name="bDuration">Duration of B</param>
         /// <returns>If 2 dates overlap</returns>
-        public static bool AvailableOn(DateTime a_start, TimeSpan a_duration, DateTime b_start, TimeSpan b_duration)
+        public static bool AvailableOn(DateTime aStart, TimeSpan aDuration, DateTime bStart, TimeSpan bDuration)
         {
-            DateTime a_end = a_start + a_duration;
-            DateTime b_end = b_start + b_duration;
+            var aEnd = aStart + aDuration;
+            var bEnd = bStart + bDuration;
 
-            return a_end <= b_start || a_start >= b_end;
+            return aEnd <= bStart || aStart >= bEnd;
         }
     }
 }
