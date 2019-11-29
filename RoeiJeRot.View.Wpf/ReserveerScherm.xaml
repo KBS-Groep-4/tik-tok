@@ -19,7 +19,7 @@
             <Button Content="Log Uit" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" Height="48" Width="142"/>
             <StackPanel Orientation="Horizontal">
                 <Image Height="100" Width="250" Source="rsc/logo.png"/>
-                <Label Content="Goedemiddag, &lt;VOORNAAM&gt;" FontSize="46
+                <Label Content="Goedemiddag, Jan" FontSize="46
                        " VerticalAlignment="Center"/>
             </StackPanel>
         </Grid>
