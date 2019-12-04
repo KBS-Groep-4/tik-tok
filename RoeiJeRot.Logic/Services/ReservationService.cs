@@ -51,7 +51,7 @@ namespace RoeiJeRot.Logic.Services
                 var max = int.MinValue;
                 foreach (var boat in availableBoats)
                 {
-                    if (boat.SailingReservations.Count > max)
+                    if (boat.SailingReservations.Count >= max)
                         boatToReserve = boat;
                 }
 
