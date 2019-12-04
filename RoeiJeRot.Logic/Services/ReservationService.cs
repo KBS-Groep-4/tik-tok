@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using RoeiJeRot.Database.Database;
+using RoeiJeRot.Logic.Helper;
 
 namespace RoeiJeRot.Logic.Services
 {
@@ -44,6 +45,10 @@ namespace RoeiJeRot.Logic.Services
         public bool PlaceReservation(int boatType, int memberId, DateTime reservationDate, TimeSpan duration)
         {
             var availableBoats = _boatService.GetAvailableBoats(reservationDate, duration);
+
+            // Checks if the reservation doesn't violate any constraints
+            ReservationConstraintsMsg msg = ReservationConstraints.IsValid(reservationDate, duration, this, memberId);
+            if (!msg.IsValid) return false;
 
             // Check if there is an available boat
             if (availableBoats.Count > 0)
