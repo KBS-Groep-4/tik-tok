@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Internal;
 using RoeiJeRot.Database.Database;
 
 namespace RoeiJeRot.Logic.Services
@@ -23,6 +24,8 @@ namespace RoeiJeRot.Logic.Services
         /// </summary>
         /// <param name="reservationId"></param>
         void CancelBoatReservation(int reservationId);
+
+        List<SailingReservation> GetFutureReservations(int memberId);
     }
 
     public class ReservationService : IReservationService
@@ -69,6 +72,12 @@ namespace RoeiJeRot.Logic.Services
             }
 
             return false;
+        }
+
+        public List<SailingReservation> GetFutureReservations(int memberId)
+        {
+            var user = _context.Users.Where(user => user.Id == memberId).ToList()[0];
+            return user.Reservations.Where(reserv => (reserv.Date + reserv.Duration) >= DateTime.Now).ToList();
         }
 
         /// <inheritdoc />
