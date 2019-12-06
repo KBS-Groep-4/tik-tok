@@ -24,6 +24,11 @@ namespace RoeiJeRot.Logic.Services
         /// <param name="reservationId"></param>
         void CancelReservation(int reservationId);
 
+        /// <summary>
+        /// Re-allocates the future reservations of a boat
+        /// </summary>
+        /// <param name="boatId">Id of the boat to be cancelled</param>
+        /// <returns>A list of reservations that could not be reallocated</returns>
         List<SailingReservation> AllocateBoatReservations(int boatId);
     }
 
@@ -93,11 +98,6 @@ namespace RoeiJeRot.Logic.Services
             else throw new Exception("No reservation of this id found");
         }
 
-        /// <summary>
-        /// Cancels all future reservations for this boatId and places them on another
-        /// </summary>
-        /// <param name="boatId"></param>
-        /// <returns>A list of reservations that could not be re-allocated</returns>
         public List<SailingReservation> AllocateBoatReservations(int boatId)
         {
             // Get all future reservations that need to be cancelled
