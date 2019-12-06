@@ -115,6 +115,7 @@ namespace RoeiJeRot.Logic.Services
             else throw new Exception("No reservation of this id found");
         }
 
+        /// <inheritdoc />
         public List<SailingReservation> AllocateBoatReservations(int boatId)
         {
             // Get all future reservations that need to be cancelled
