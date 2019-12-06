@@ -94,6 +94,7 @@ namespace RoeiJeRot.Logic.Services
             {
                 reservation = reservations.First();
                 _context.Remove(reservation);
+                _context.SaveChanges();
             }
             else throw new Exception("No reservation of this id found");
         }
