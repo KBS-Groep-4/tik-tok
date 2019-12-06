@@ -47,8 +47,8 @@ namespace RoeiJeRot.Logic.Services
             var availableBoats = _boatService.GetAvailableBoats(reservationDate, duration);
 
             // Checks if the reservation doesn't violate any constraints
-            ReservationConstraintsMsg msg = ReservationConstraints.IsValid(reservationDate, duration, this, memberId);
-            if (!msg.IsValid) return false;
+            ReservationConstraintsMessage message = ReservationConstraints.IsValid(reservationDate, duration, this, memberId);
+            if (!message.IsValid) return false;
             
             // Check if there is an available boat
             if (availableBoats.Count > 0)
