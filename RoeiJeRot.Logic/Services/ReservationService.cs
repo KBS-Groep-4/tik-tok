@@ -22,7 +22,9 @@ namespace RoeiJeRot.Logic.Services
         ///     Cancels a boat reservation.
         /// </summary>
         /// <param name="reservationId"></param>
-        void CancelBoatReservation(int reservationId);
+        void CancelReservation(int reservationId);
+
+        List<SailingReservation> AllocateBoatReservations(int boatId);
     }
 
     public class ReservationService : IReservationService
@@ -40,7 +42,7 @@ namespace RoeiJeRot.Logic.Services
         /// <inheritdoc />
         public bool PlaceReservation(int boatType, int memberId, DateTime reservationDate, TimeSpan duration)
         {
-            var availableBoats = _boatService.GetAvailableBoats(reservationDate, duration);
+            var availableBoats = _boatService.GetAvailableBoats(reservationDate, duration).Where(boat => boat.BoatTypeId == boatType && boat.Status != (int)BoatState.InService).ToList();
 
             // Check if there is an available boat
             if (availableBoats.Count > 0)
@@ -51,8 +53,9 @@ namespace RoeiJeRot.Logic.Services
                 var max = int.MinValue;
                 foreach (var boat in availableBoats)
                 {
-                    if (boat.SailingReservations.Count >= max)
-                        boatToReserve = boat;
+                    if(boat.BoatTypeId == boatType)
+                        if (boat.SailingReservations.Count >= max)
+                            boatToReserve = boat;
                 }
 
                 //Create a reservation for this boat
@@ -78,9 +81,48 @@ namespace RoeiJeRot.Logic.Services
         }
 
         /// <inheritdoc />
-        public void CancelBoatReservation(int reservationId)
+        public void CancelReservation(int reservationId)
         {
-            throw new NotImplementedException();
+            var reservations = _context.Reservations.Where(reserv => reserv.Id == reservationId);
+            SailingReservation reservation;
+            if (reservations.Any())
+            {
+                reservation = reservations.First();
+                _context.Remove(reservation);
+            }
+            else throw new Exception("No reservation of this id found");
+        }
+
+        /// <summary>
+        /// Cancels all future reservations for this boatId and places them on another
+        /// </summary>
+        /// <param name="boatId"></param>
+        /// <returns>A list of reservations that could not be re-allocated</returns>
+        public List<SailingReservation> AllocateBoatReservations(int boatId)
+        {
+            // Get all future reservations that need to be cancelled
+            var reservationsToCancel =
+                _context.Reservations.Where(reserv => reserv.ReservedSailingBoatId == boatId && reserv.Date > DateTime.Now).ToList();
+
+            // List of boats that could not be allocated
+            List<SailingReservation> notReAllocatable = new List<SailingReservation>();
+
+            // Place for each reservation a new reservation, if one could not be placed they are put in not Can
+            foreach (SailingReservation reservation in reservationsToCancel)
+            {
+                int boatType = reservation.ReservedSailingBoat.BoatTypeId;
+                int boatUser = reservation.ReservedByUserId;
+                DateTime reservationDate = reservation.Date;
+                TimeSpan reservationDuration = reservation.Duration;
+
+                if(!PlaceReservation(boatType, boatUser, reservationDate, reservationDuration)) 
+                    notReAllocatable.Add(reservation);
+
+                _context.Remove(reservation);
+                _context.SaveChanges();
+            }
+
+            return notReAllocatable;
         }
     }
 }
