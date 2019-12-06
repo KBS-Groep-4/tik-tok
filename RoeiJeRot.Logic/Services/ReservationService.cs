@@ -94,7 +94,7 @@ namespace RoeiJeRot.Logic.Services
         }
 
         /// <summary>
-        /// Cancels all future reservations for this boatId and places them on another
+        /// Cancels all future reservations for this boatId and places them on another boat
         /// </summary>
         /// <param name="boatId"></param>
         /// <returns>A list of reservations that could not be re-allocated</returns>
