@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <control:LogoutButton x:Name="logoutButton" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"/>
         <Label  HorizontalAlignment="Left" Foreground="White" Width="68" Content="Roei Je Rot" Grid.Column="2" Margin="261,0,0,0"/>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True" Width="134" Height="32" Grid.Column="3">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True" Width="134" Height="32" Grid.Column="3">
             <Button Foreground="White" Click="Minimize_Click" Content="&#xE949;" FontFamily="Segoe MDL2 Assets" FontSize="10" Padding="15,15,15,5" Background="#FF90B80D" BorderBrush="Transparent" />
             <Button Foreground="White" Click="Maximize_Click" FontFamily="Segoe MDL2 Assets" FontSize="10" Padding="15,10" Background="Transparent" BorderBrush="Transparent">
                 <Button.Style>

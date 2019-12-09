@@ -28,7 +28,6 @@ namespace RoeiJeRot.View.Wpf.Views.Control
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
-
             BtnMinClick?.Invoke(this, e);
         }
 

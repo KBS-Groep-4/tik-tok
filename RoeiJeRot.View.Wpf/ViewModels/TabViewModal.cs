@@ -4,6 +4,9 @@ using RoeiJeRot.View.Wpf.Views.Windows;
 
 namespace RoeiJeRot.View.Wpf.ViewModels
 {
+    /// <summary>
+    /// The view modal that wraps tabs.
+    /// </summary>
     public sealed class TabViewModal
     {
         /// <summary>

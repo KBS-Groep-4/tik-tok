@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic.Services;
+using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows

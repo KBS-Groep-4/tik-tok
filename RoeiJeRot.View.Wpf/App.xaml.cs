@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic.Config;
 using RoeiJeRot.Logic.Services;
+using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.Views;
 using RoeiJeRot.View.Wpf.Views.Windows;
 
@@ -64,7 +65,7 @@ namespace RoeiJeRot.View.Wpf
             await Host.StartAsync();
 
             _windowManager = Host.Services.GetService<WindowManager>();
-            _windowManager.Login();
+            _windowManager.ShowLogin();
         }
 
         private async void Application_Exit(object sender, ExitEventArgs e)

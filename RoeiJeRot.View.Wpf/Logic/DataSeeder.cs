@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic;
 
-namespace RoeiJeRot.View.Wpf
+namespace RoeiJeRot.View.Wpf.Logic
 {
     /// <summary>
     ///     Data seeder that inserts test data into the database.

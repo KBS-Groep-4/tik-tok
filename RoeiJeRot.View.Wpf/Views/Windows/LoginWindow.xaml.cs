@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using RoeiJeRot.Logic.Services;
+using RoeiJeRot.View.Wpf.Logic;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows
 {
