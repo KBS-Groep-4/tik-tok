@@ -18,6 +18,8 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             this.headerBar.BtnCloseClick += CloseClick;
             this.headerBar.BtnMinClick += MinimizeClick;
             this.headerBar.BtnMaxClick += MaximizeRestoreClick;
+
+            headerBar.logoutButton.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
