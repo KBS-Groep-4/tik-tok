@@ -21,12 +21,6 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             DeviceDataGrid.ItemsSource = Items;
         }
 
-        private void OnLogoutButtonClick(object sender, RoutedEventArgs e)
-        {
-            var rs = InstanceCreator.Instance.CreateInstance<LoginWindow>();
-            rs.Show();
-        }
-
         public ObservableCollection<ReservationViewModel> Items { get; set; } =
             new ObservableCollection<ReservationViewModel>();
 

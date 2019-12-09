@@ -32,12 +32,6 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             UpdateAvailableList();
         }
 
-        private void OnLogoutButtonClick(object sender, RoutedEventArgs e)
-        {
-            var rs = InstanceCreator.Instance.CreateInstance<LoginWindow>();
-            rs.Show();
-        }
-
         public ObservableCollection<BoatTypeViewModel> ObservableAvailableTypes { get; set; }
 
         public void ReservButtonOnClick(object sender, RoutedEventArgs args)
