@@ -2,28 +2,25 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.ViewModels;
 
-namespace RoeiJeRot.View.Wpf.Views
+namespace RoeiJeRot.View.Wpf.Views.Windows
 {
     /// <summary>
     ///     Interaction logic for ReservationOverviewWindow.xaml
     /// </summary>
-    public partial class ReservationOverviewWindow : Window
+    public partial class ReservationOverviewWindow : UserControl
     {
         public ReservationOverviewWindow(IReservationService reservationService)
         {
             InitializeComponent();
             SetReservationData(reservationService);
             DeviceDataGrid.ItemsSource = Items;
-            btnLogout.OnClick += OnLogoutButtonClick;
         }
 
         private void OnLogoutButtonClick(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             var rs = InstanceCreator.Instance.CreateInstance<LoginWindow>();
             rs.Show();
         }

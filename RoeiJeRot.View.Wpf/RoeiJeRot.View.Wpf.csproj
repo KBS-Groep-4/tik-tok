@@ -14,7 +14,21 @@
   </ItemGroup>
 
   <ItemGroup>
+        <None Remove="Resources\1482949147_properties.png" />
+        <None Remove="Resources\client.png" />
+        <None Remove="Resources\close.png" />
+        <None Remove="Resources\close_white.png" />
+        <None Remove="Resources\heart_white.png" />
+        <None Remove="Resources\info_white.png" />
         <None Remove="Resources\logo.png" />
+        <None Remove="Resources\menu.png" />
+        <None Remove="Resources\menu_white.png" />
+        <None Remove="Resources\min.png" />
+        <None Remove="Resources\min_white.png" />
+        <None Remove="Resources\prop_white.png" />
+        <None Remove="Resources\remote_white.png" />
+        <None Remove="Resources\search-grey.png" />
+        <None Remove="Resources\search_white.png" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,9 +44,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\1482949147_properties.png" />
+    <Resource Include="Resources\client.png" />
+    <Resource Include="Resources\close.png" />
+    <Resource Include="Resources\close_white.png" />
+    <Resource Include="Resources\heart_white.png" />
+    <Resource Include="Resources\info_white.png" />
     <Resource Include="Resources\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\menu.png" />
+    <Resource Include="Resources\menu_white.png" />
+    <Resource Include="Resources\min.png" />
+    <Resource Include="Resources\min_white.png" />
+    <Resource Include="Resources\prop_white.png" />
+    <Resource Include="Resources\remote_white.png" />
+    <Resource Include="Resources\search-grey.png" />
+    <Resource Include="Resources\search_white.png" />
   </ItemGroup>
 
   <ItemGroup>

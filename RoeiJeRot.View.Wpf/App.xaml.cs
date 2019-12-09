@@ -9,11 +9,14 @@ using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic.Config;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Views;
+using RoeiJeRot.View.Wpf.Views.Windows;
 
 namespace RoeiJeRot.View.Wpf
 {
     public partial class App : Application
     {
+        private WindowManager _windowManager;
+
         public App()
         {
             Host = new HostBuilder()
@@ -32,13 +35,19 @@ namespace RoeiJeRot.View.Wpf
                             opts.UseSqlServer(context.Configuration["connectionString"],
                                 o => o.MigrationsAssembly("LocatieNu.Web.Api"));
                         })
+                        .AddSingleton<CurrentWindow>()
+                        .AddSingleton<WindowManager>()
+
                         .AddSingleton<IUserService, UserService>()
                         .AddSingleton<IBoatService, BoatService>()
                         .AddSingleton<IReservationService, ReservationService>()
                         .AddSingleton<IAuthenticationService, AuthenticationService>()
+
+                        .AddTransient<MainWindow>()
                         .AddTransient<LoginWindow>()
                         .AddTransient<ReservationWindow>()
                         .AddTransient<ReservationOverviewWindow>()
+
                         .AddSingleton<DataSeeder>();
                 })
                 .ConfigureLogging(logging => { logging.AddConsole(); })
@@ -54,8 +63,8 @@ namespace RoeiJeRot.View.Wpf
         {
             await Host.StartAsync();
 
-            var loginWindow = Host.Services.GetService<LoginWindow>();
-            loginWindow.Show();
+            _windowManager = Host.Services.GetService<WindowManager>();
+            _windowManager.Login();
         }
 
         private async void Application_Exit(object sender, ExitEventArgs e)
@@ -63,6 +72,7 @@ namespace RoeiJeRot.View.Wpf
             using (Host)
             {
                 await Host.StopAsync(TimeSpan.FromSeconds(5));
+                _windowManager?.CurrentWindow.Close();
             }
         }
     }

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Controls;
 using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.ViewModels;
 
-namespace RoeiJeRot.View.Wpf.Views
+namespace RoeiJeRot.View.Wpf.Views.Windows
 {
     /// <summary>
     ///     Interaction logic for ReservationWindow.xaml
     /// </summary>
-    public partial class ReservationWindow : Window
+    public partial class ReservationWindow : UserControl
     {
         private readonly IBoatService _boatService;
         private readonly IReservationService _reservationService;
@@ -28,13 +28,10 @@ namespace RoeiJeRot.View.Wpf.Views
             When.SelectedDate = DateTime.Today;
 
             UpdateAvailableList();
-
-            btnLogout.OnClick += OnLogoutButtonClick;
         }
 
         private void OnLogoutButtonClick(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             var rs = InstanceCreator.Instance.CreateInstance<LoginWindow>();
             rs.Show();
         }
@@ -65,7 +62,7 @@ namespace RoeiJeRot.View.Wpf.Views
 
                     if (When.SelectedDate.HasValue)
                     {
-                        _reservationService.PlaceReservation(selectedType.Id, 3, When.SelectedDate.Value + time,
+                        _reservationService.PlaceReservation(selectedType.Id, 1, When.SelectedDate.Value + time,
                             duration);
                         MessageBox.Show("Reservering geplaatst :D");
                         UpdateAvailableList();

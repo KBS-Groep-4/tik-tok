@@ -49,12 +49,12 @@ namespace RoeiJeRot.View.Wpf
             _context.Users.Add(new User
             {
                 FirstName = "Paul", LastName = "Hiemstra", City = "Zwolle", Country = "Nederland", HouseNumber = "2",
-                Password = Hasher.Hash("abc"), Username = "abc", SailingLevel = 1, StreetName = "Duckweg"
+                Password = Hasher.Hash("123"), Username = "paul", SailingLevel = 1, StreetName = "Duckweg"
             });
             _context.Users.Add(new User
             {
                 FirstName = "Frank", LastName = "Demilt", City = "Zwolle", Country = "Nederland", HouseNumber = "2",
-                Password = Hasher.Hash("abc"), Username = "abc", SailingLevel = 1, StreetName = "Duckweg"
+                Password = Hasher.Hash("123"), Username = "frank", SailingLevel = 1, StreetName = "Duckweg"
             });
             _context.SaveChanges();
         }

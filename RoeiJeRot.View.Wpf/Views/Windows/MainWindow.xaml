@@ -1,0 +1,42 @@
+﻿<Window x:Class="RoeiJeRot.View.Wpf.Views.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:RoeiJeRot.View.Wpf.ViewModels"
+        xmlns:control="clr-namespace:RoeiJeRot.View.Wpf.Views.Control"
+        mc:Ignorable="d"
+        Title="Roei Je Rot" Height="600" Width="1165" WindowStyle="None" ResizeMode="CanResize" x:Name="window" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.DataContext>
+        <viewModels:TabViewModal />
+    </Window.DataContext>
+    <DockPanel>
+        <control:HeaderBar x:Name="headerBar" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=window}" Height="40"/>
+        <StackPanel x:Name="pnlPageButtons"  DockPanel.Dock="Left" Width="322">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0,10,0,10"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="#FF13A9FF"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Height" Value="30"/>
+                </Style>
+            </StackPanel.Resources>
+        </StackPanel>
+        <TabControl x:Name="ActionTabs" DockPanel.Dock="Right" Background="White">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Height="21" Width="300">
+                        <Image Source="../../Resources/close.png" Width="20" MouseLeftButtonDown="Image_MouseLeftButtonDown" ></Image>
+                        <TextBlock Width="280" Text="{Binding Header}" />
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <UserControl Height="600" Content="{Binding Content}" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </DockPanel>
+</Window>
