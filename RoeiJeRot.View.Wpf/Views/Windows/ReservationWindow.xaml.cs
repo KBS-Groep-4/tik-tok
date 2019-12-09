@@ -55,7 +55,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
                     var selectedItemObject = AvailableBoats.SelectedItem;
                     if (selectedItemObject == null)
                     {
-                        MessageBox.Show("Geen boot geselecteerd :(");
+                        MessageBox.Show("Geen boot geselecteerd");
                         return;
                     }
 
@@ -65,8 +65,8 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
                     {
                         bool result = _reservationService.PlaceReservation(selectedType.Id, 1, When.SelectedDate.Value + time,
                             duration);
-                        if (result) MessageBox.Show("Reservering geplaatst :D");
-                        else MessageBox.Show("Reservatie niet geplaatst :(");
+                        if (result) MessageBox.Show("Reservering geplaatst");
+                        else MessageBox.Show("Reservatie niet geplaatst");
 
                         UpdateAvailableList();
                     }

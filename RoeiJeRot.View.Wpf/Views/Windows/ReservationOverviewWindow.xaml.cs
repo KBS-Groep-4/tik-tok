@@ -38,7 +38,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
                     Id = r.Id,
                     ReservationDate = r.Date.ToString("g"),
                     Duration = r.Duration.ToString(@"hh\:mm"),
-                    ReservedByUserId = r.ReservedByUserId,
+                    ReservedByUserId = r.ReservedBy.Username,
                     ReservedBoatId = r.ReservedSailingBoatId
                 }).ToList();
 
