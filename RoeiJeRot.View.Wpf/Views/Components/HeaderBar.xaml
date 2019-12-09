@@ -1,11 +1,10 @@
 ﻿<UserControl
-             xmlns:local="clr-namespace:RoeiJeRot.View.Wpf.Views.Control"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:control="clr-namespace:RoeiJeRot.View.Wpf.Views.Control"
-             x:Class="RoeiJeRot.View.Wpf.Views.Control.HeaderBar"
+             xmlns:components="clr-namespace:RoeiJeRot.View.Wpf.Views.Components"
+             x:Class="RoeiJeRot.View.Wpf.Views.Components.HeaderBar"
              mc:Ignorable="d" Height="34" Width="889.5">
     <Grid Background="#FF2B2E33">
         <Grid.ColumnDefinitions>
@@ -14,7 +13,7 @@
             <ColumnDefinition Width="623*"/>
             <ColumnDefinition Width="132*"/>
         </Grid.ColumnDefinitions>
-        <control:LogoutButton x:Name="logoutButton" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"/>
+        <components:LogoutButton x:Name="logoutButton" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"/>
         <Label  HorizontalAlignment="Left" Foreground="White" Width="68" Content="Roei Je Rot" Grid.Column="2" Margin="261,0,0,0"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True" Width="134" Height="32" Grid.Column="3">
             <Button Foreground="White" Click="Minimize_Click" Content="&#xE949;" FontFamily="Segoe MDL2 Assets" FontSize="10" Padding="15,15,15,5" Background="#FF90B80D" BorderBrush="Transparent" />

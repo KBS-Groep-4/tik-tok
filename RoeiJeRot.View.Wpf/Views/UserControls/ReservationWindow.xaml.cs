@@ -8,8 +8,9 @@ using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
+using RoeiJeRot.View.Wpf.Views.Windows;
 
-namespace RoeiJeRot.View.Wpf.Views.Windows
+namespace RoeiJeRot.View.Wpf.Views.UserControls
 {
     /// <summary>
     ///     Interaction logic for ReservationWindow.xaml

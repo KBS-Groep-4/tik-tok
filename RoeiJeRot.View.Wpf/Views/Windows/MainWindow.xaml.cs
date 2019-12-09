@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
+using RoeiJeRot.View.Wpf.Views.UserControls;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows
 {

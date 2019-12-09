@@ -10,6 +10,7 @@ using RoeiJeRot.Logic.Config;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.Views;
+using RoeiJeRot.View.Wpf.Views.UserControls;
 using RoeiJeRot.View.Wpf.Views.Windows;
 
 namespace RoeiJeRot.View.Wpf

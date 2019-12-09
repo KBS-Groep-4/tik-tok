@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
-namespace RoeiJeRot.View.Wpf.Views.Control
+namespace RoeiJeRot.View.Wpf.Views.Components
 {
     /// <summary>
     /// Interaction logic for HeaderBar.xaml

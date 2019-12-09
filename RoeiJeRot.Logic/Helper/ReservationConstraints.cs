@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using RoeiJeRot.Logic.Services;
-using static Innovative.SolarCalculator.SolarTimes;
 
 namespace RoeiJeRot.Logic.Helper
 {

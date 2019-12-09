@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoeiJeRot.View.Wpf.Views.Windows"
-        xmlns:control="clr-namespace:RoeiJeRot.View.Wpf.Views.Control"
+        xmlns:components="clr-namespace:RoeiJeRot.View.Wpf.Views.Components"
         mc:Ignorable="d"
         Background="#EEEEEE"
         Icon="/Resources/logo.png"
         Title="Roei Je Rot" Height="600" Width="1165" WindowStyle="None" ResizeMode="CanResize" x:Name="loginWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <DockPanel>
-        <control:HeaderBar x:Name="headerBar" DockPanel.Dock="Top" Height="40" Width="{Binding ActualWidth, ElementName=loginWindow}"/>
+        <components:HeaderBar x:Name="headerBar" DockPanel.Dock="Top" Height="40" Width="{Binding ActualWidth, ElementName=loginWindow}"/>
         <Grid DockPanel.Dock="Bottom" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="66*" />

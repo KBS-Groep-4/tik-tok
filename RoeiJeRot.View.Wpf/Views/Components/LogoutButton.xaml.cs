@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using RoeiJeRot.View.Wpf.Views.Windows;
 
-namespace RoeiJeRot.View.Wpf.Views.Control
+namespace RoeiJeRot.View.Wpf.Views.Components
 {
     /// <summary>
     ///     Interaction logic for LogoutButton.xaml
