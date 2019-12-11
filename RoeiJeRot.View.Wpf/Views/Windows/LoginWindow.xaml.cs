@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
+using Window = System.Windows.Window;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows
 {

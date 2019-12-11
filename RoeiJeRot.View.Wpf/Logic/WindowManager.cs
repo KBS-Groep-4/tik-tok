@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RoeiJeRot.Logic.Services;
+using RoeiJeRot.View.Wpf.ViewModels;
 using RoeiJeRot.View.Wpf.Views.Windows;
 
 namespace RoeiJeRot.View.Wpf.Logic
@@ -14,16 +16,13 @@ namespace RoeiJeRot.View.Wpf.Logic
     /// </summary>
     public class WindowManager
     {
+        public CustomWindow<CustomUserControl> CurrentWindow { get; }
+
         /// <summary>
         /// DI environment that manages instantiating services.
         /// </summary>
         private readonly IHost _host;
-
-        /// <summary>
-        /// The current active window.
-        /// </summary>
-        public CurrentWindow CurrentWindow { get; }
-
+        
         /// <summary>
         /// The current authenticated username.
         /// </summary>
@@ -32,7 +31,7 @@ namespace RoeiJeRot.View.Wpf.Logic
         public WindowManager(IHost host)
         {
             _host = host;
-            CurrentWindow = new CurrentWindow();
+            CurrentWindow = new CustomWindow<CustomUserControl>();
         }
 
         /// <summary>
@@ -40,7 +39,6 @@ namespace RoeiJeRot.View.Wpf.Logic
         /// </summary>
         public void Logout()
         {
-            CurrentWindow.Close();
             ShowLogin();
         }
 
@@ -49,7 +47,8 @@ namespace RoeiJeRot.View.Wpf.Logic
         /// </summary>
         public void ShowLogin()
         {
-            CurrentWindow.ShowNew(GetWindow<LoginWindow>());
+            var window = GetWindow<LoginWindow>();
+            CurrentWindow.ShowNew(window);
         }
         
         /// <summary>
@@ -77,9 +76,9 @@ namespace RoeiJeRot.View.Wpf.Logic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private Window GetWindow<T>() where T: Window
+        private System.Windows.Window GetWindow<T>() where T: System.Windows.Window
         {
-            return (Window)_host.Services.GetService<T>();
+            return (System.Windows.Window)_host.Services.GetService<T>();
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System.Windows.Input;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
 using RoeiJeRot.View.Wpf.Views.UserControls;
+using Window = System.Windows.Window;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows
 {
@@ -15,7 +16,6 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
     public partial class MainWindow : Window
     {
         private readonly WindowManager _windowManager;
-        private TabViewModal tabViewModel;
 
         public MainWindow(WindowManager windowManager)
         {
@@ -25,9 +25,6 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             this.headerBar.BtnMinClick += MinimizeClick;
             this.headerBar.BtnMaxClick += MaximizeRestoreClick;
             this.headerBar.LogoutClick += OnLogout;
-
-            tabViewModel = new TabViewModal();
-            ActionTabs.ItemsSource = tabViewModel.Tabs;
 
             LoadButtons();
         }
@@ -47,24 +44,22 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         {
             if (e.Source is Button)
             {
-                tabViewModel.Tabs.Add(new ActionTabItem
-                {
-                    Header = "Reservering Overzicht",
-                    Content = InstanceCreator.Instance.CreateInstance<ReservationOverviewWindow>()
-                });
+                _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
+                    .CreateInstance<ReservationOverviewScreen>());
             }
+
+            OnScreenUpdate();
         }
 
         private void OnReservationClick(object sender, RoutedEventArgs e)
         {
             if (e.Source is Button)
             {
-                tabViewModel.Tabs.Add(new ActionTabItem
-                {
-                    Header = "Reservering Aanmaken",
-                    Content = InstanceCreator.Instance.CreateInstance<ReservationWindow>()
-                });
+                _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
+                    .CreateInstance<ReservationScreen>());
             }
+
+            OnScreenUpdate();
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
@@ -87,12 +82,15 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             _windowManager.Logout();
         }
 
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnScreenUpdate()
         {
-            if (ActionTabs.SelectedIndex != -1)
-            {
-                tabViewModel.Tabs.RemoveAt(ActionTabs.SelectedIndex);
-            }
+            var screen = _windowManager.CurrentWindow.TopScreen();
+            screenGrid.Children.Add(screen);
+            screen.HorizontalAlignment = HorizontalAlignment.Stretch;
+            screen.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(screen, 1);
+            Grid.SetColumn(screen, 1);
         }
     }
 }

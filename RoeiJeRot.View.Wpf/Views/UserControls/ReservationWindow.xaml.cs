@@ -13,14 +13,14 @@ using RoeiJeRot.View.Wpf.Views.Windows;
 namespace RoeiJeRot.View.Wpf.Views.UserControls
 {
     /// <summary>
-    ///     Interaction logic for ReservationWindow.xaml
+    ///     Interaction logic for ReservationScreen.xaml
     /// </summary>
-    public partial class ReservationWindow : UserControl
+    public partial class ReservationScreen : CustomUserControl
     {
         private readonly IBoatService _boatService;
         private readonly IReservationService _reservationService;
 
-        public ReservationWindow(IBoatService boatService, IReservationService reservationService)
+        public ReservationScreen(IBoatService boatService, IReservationService reservationService)
         {
             _boatService = boatService;
             _reservationService = reservationService;
@@ -113,6 +113,10 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             {
                 AvailableBoats.ItemsSource = null;
             }
+        }
+
+        public void OnClose()
+        {
         }
     }
 }

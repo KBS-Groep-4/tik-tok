@@ -37,7 +37,7 @@ namespace RoeiJeRot.View.Wpf
                             opts.UseSqlServer(context.Configuration["connectionString"],
                                 o => o.MigrationsAssembly("LocatieNu.Web.Api"));
                         })
-                        .AddSingleton<CurrentWindow>()
+                        .AddSingleton<Window>()
                         .AddSingleton<WindowManager>()
 
                         .AddSingleton<IUserService, UserService>()
@@ -47,8 +47,8 @@ namespace RoeiJeRot.View.Wpf
 
                         .AddTransient<MainWindow>()
                         .AddTransient<LoginWindow>()
-                        .AddTransient<ReservationWindow>()
-                        .AddTransient<ReservationOverviewWindow>()
+                        .AddTransient<ReservationScreen>()
+                        .AddTransient<ReservationOverviewScreen>()
 
                         .AddSingleton<DataSeeder>();
                 })

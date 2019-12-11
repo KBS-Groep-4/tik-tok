@@ -5,7 +5,7 @@ namespace RoeiJeRot.View.Wpf.ViewModels
     /// <summary>
     /// Represents a tab item from the tab panel.
     /// </summary>
-    public sealed class ActionTabItem
+    public sealed class WindowViewModel
     {
         /// <summary>
         /// The display name of the tab item.

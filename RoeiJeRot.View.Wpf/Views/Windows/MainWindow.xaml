@@ -6,10 +6,15 @@
         xmlns:viewModels="clr-namespace:RoeiJeRot.View.Wpf.ViewModels"
         xmlns:components="clr-namespace:RoeiJeRot.View.Wpf.Views.Components"
         mc:Ignorable="d"
-        Title="Roei Je Rot" Height="600" Width="1165" WindowStyle="None" ResizeMode="CanResize" x:Name="window" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Window.DataContext>
-        <viewModels:TabViewModal />
-    </Window.DataContext>
+        Title="Roei Je Rot" Height="600" Width="1165" WindowStyle="None" ResizeMode="CanResize" x:Name="window" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <DockPanel>
         <components:HeaderBar x:Name="headerBar" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=window}" Height="40"/>
         <StackPanel x:Name="pnlPageButtons"  DockPanel.Dock="Left" Width="322">
@@ -23,20 +28,16 @@
                 </Style>
             </StackPanel.Resources>
         </StackPanel>
-        <TabControl x:Name="ActionTabs" DockPanel.Dock="Right" Background="White">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Height="21" Width="300">
-                        <Image Source="../../Resources/close.png" Width="20" MouseLeftButtonDown="Image_MouseLeftButtonDown" ></Image>
-                        <TextBlock Width="280" Text="{Binding Header}" />
-                    </StackPanel>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <UserControl Height="600" Content="{Binding Content}" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+        <Grid x:Name="screenGrid" DockPanel.Dock="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="705*"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="57*"/>
+                <RowDefinition Height="487*"/>
+            </Grid.RowDefinitions>
+        </Grid>
     </DockPanel>
 </Window>

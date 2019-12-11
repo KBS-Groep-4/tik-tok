@@ -19,6 +19,8 @@
         <None Remove="Resources\logo.png" />
         <None Remove="Resources\min.png" />
         <None Remove="Resources\min_white.png" />
+        <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
+        <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

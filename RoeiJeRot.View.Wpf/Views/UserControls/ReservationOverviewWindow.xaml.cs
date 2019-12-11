@@ -10,12 +10,15 @@ using RoeiJeRot.View.Wpf.Views.Windows;
 namespace RoeiJeRot.View.Wpf.Views.UserControls
 {
     /// <summary>
-    ///     Interaction logic for ReservationOverviewWindow.xaml
+    ///     Interaction logic for ReservationOverviewScreen.xaml
     /// </summary>
-    public partial class ReservationOverviewWindow : UserControl
+    public partial class ReservationOverviewScreen : CustomUserControl
     {
-        public ReservationOverviewWindow(IReservationService reservationService)
+        private readonly WindowManager _windowManager;
+
+        public ReservationOverviewScreen(IReservationService reservationService, WindowManager windowManager)
         {
+            _windowManager = windowManager;
             InitializeComponent();
             SetReservationData(reservationService);
             DeviceDataGrid.ItemsSource = Items;
@@ -38,6 +41,10 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 }).ToList();
 
             foreach (var reservation in reservations) Items.Add(reservation);
+        }
+
+        public void OnClose()
+        {
         }
     }
 }
