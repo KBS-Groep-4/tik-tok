@@ -84,6 +84,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
 
         private void OnScreenUpdate()
         {
+            screenGrid.Children.Clear();
             var screen = _windowManager.CurrentWindow.TopScreen();
             screenGrid.Children.Add(screen);
             screen.HorizontalAlignment = HorizontalAlignment.Stretch;

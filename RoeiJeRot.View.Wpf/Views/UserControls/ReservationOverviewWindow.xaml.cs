@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,8 +44,12 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             foreach (var reservation in reservations) Items.Add(reservation);
         }
 
-        public void OnClose()
+        private void OnCancelClick(object sender, RoutedEventArgs e)
         {
+            if (DeviceDataGrid.SelectedItem != null)
+            {
+                
+            }
         }
     }
 }
