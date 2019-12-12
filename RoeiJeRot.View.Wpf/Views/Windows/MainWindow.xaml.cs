@@ -87,7 +87,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             screenGrid.Children.Clear();
             var screen = _windowManager.CurrentWindow.TopScreen();
             screenGrid.Children.Add(screen);
-            screen.HorizontalAlignment = HorizontalAlignment.Stretch;
+            screen.HorizontalAlignment = HorizontalAlignment.Left;
             screen.VerticalAlignment = VerticalAlignment.Top;
 
             Grid.SetRow(screen, 1);

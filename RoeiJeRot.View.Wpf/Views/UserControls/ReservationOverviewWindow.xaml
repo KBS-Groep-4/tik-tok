@@ -21,10 +21,10 @@
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Height="35" Content="Lijst met boot reserveringen" Background="#FF2B2E33" FontWeight="Bold" Foreground="#FFF0F0F0" Grid.RowSpan="2" VerticalAlignment="Top"/>
 
-        <DataGrid ItemsSource="{Binding Items}" x:Name="DeviceDataGrid" AutoGenerateColumns="False" Background="White"
+        <DataGrid IsReadOnly="True" ItemsSource="{Binding Items}" x:Name="DeviceDataGrid" AutoGenerateColumns="False" Background="White"
                   EnableRowVirtualization="True" RowDetailsVisibilityMode="VisibleWhenSelected" MinColumnWidth="150"
                   Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="0" Height="452" VerticalAlignment="Top">
-            <DataGrid.Columns >
+            <DataGrid.Columns>
                 <DataGridTextColumn x:Name="Id" Binding="{Binding Id}" 
                                     Header="Reserveernummer" Width="Auto" />
                 <DataGridTextColumn x:Name="Gereserveerd" Binding="{Binding ReservedByUserId}"
