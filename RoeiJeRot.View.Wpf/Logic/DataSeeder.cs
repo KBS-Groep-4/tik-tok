@@ -30,7 +30,9 @@ namespace RoeiJeRot.View.Wpf.Logic
                     _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT users ON");
                     _context.SaveChanges();
 
+                    SeedPermissions();
                     SeedUsers();
+                    SeedUserPermissions();
                     SeedBoatTypes();
                     SeedBoats();
                     SeedReservations();
@@ -44,18 +46,165 @@ namespace RoeiJeRot.View.Wpf.Logic
                 }
         }
 
+        private void SeedPermissions()
+        {
+            _context.Permissions.Add(new Permission
+            {
+               Id = 1, 
+               Name = "ADMIN", 
+            });
+
+            _context.Permissions.Add(new Permission
+            {
+                Id = 2,
+                Name = "MEMBER",
+            });
+
+            _context.Permissions.Add(new Permission
+            {
+                Id = 3,
+                Name = "WC",
+            });
+
+            _context.Permissions.Add(new Permission
+            {
+                Id = 4,
+                Name = "MC",
+            });
+            
+            _context.Permissions.Add(new Permission
+            {
+                Id = 5,
+                Name = "Staff",
+            });
+
+            _context.SaveChanges();
+        }
+
+        private void SeedUserPermissions()
+        {
+            _context.PermissionUsers.Add(new UserPermission()
+            {
+                Id = 1,
+                PermissionId = 1,
+                UserId = 3
+            });
+
+            _context.PermissionUsers.Add(new UserPermission()
+            {
+                Id = 1,
+                PermissionId = 2,
+                UserId = 4
+            });
+
+            _context.PermissionUsers.Add(new UserPermission()
+            {
+                Id = 1,
+                PermissionId = 3,
+                UserId = 7
+            });
+
+            _context.PermissionUsers.Add(new UserPermission()
+            {
+                Id = 1,
+                PermissionId = 4,
+                UserId = 6
+            });
+
+            _context.PermissionUsers.Add(new UserPermission()
+            {
+                Id = 1,
+                PermissionId = 5,
+                UserId = 8
+            });
+        }
+
         private void SeedUsers()
         {
             _context.Users.Add(new User
             {
-                FirstName = "Paul", LastName = "Hiemstra", City = "Zwolle", Country = "Nederland", HouseNumber = "2",
+                Id = 1,
+                FirstName = "admin", LastName = "Hiemstra", City = "Zwolle", Country = "Nederland", HouseNumber = "2",
                 Password = Hasher.Hash("123"), Username = "paul", SailingLevel = 1, StreetName = "Duckweg"
             });
+
             _context.Users.Add(new User
             {
+                Id = 2,
                 FirstName = "Frank", LastName = "Demilt", City = "Zwolle", Country = "Nederland", HouseNumber = "2",
                 Password = Hasher.Hash("123"), Username = "frank", SailingLevel = 1, StreetName = "Duckweg"
             });
+            
+            _context.Users.Add(new User
+            {
+                Id = 3,
+                FirstName = "Frank",
+                LastName = "Demilt",
+                City = "Zwolle",
+                Country = "Nederland",
+                HouseNumber = "2",
+                Password = Hasher.Hash("admin"),
+                Username = "admin",
+                SailingLevel = 1,
+                StreetName = "Duckweg"
+            });
+
+            _context.Users.Add(new User
+            {
+                Id = 4,
+                FirstName = "Frank",
+                LastName = "Demilt",
+                City = "Zwolle",
+                Country = "Nederland",
+                HouseNumber = "2",
+                Password = Hasher.Hash("member"),
+                Username = "member",
+                SailingLevel = 1,
+                StreetName = "Duckweg"
+            });
+
+            _context.Users.Add(new User
+            {
+                Id = 6,
+                FirstName = "Frank",
+                LastName = "Demilt",
+                City = "Zwolle",
+                Country = "Nederland",
+                HouseNumber = "2",
+                Password = Hasher.Hash("mc"),
+                Username = "mc",
+                SailingLevel = 1,
+                StreetName = "Duckweg"
+            });
+
+            _context.Users.Add(new User
+            {
+                Id = 7,
+                FirstName = "Frank",
+                LastName = "Demilt",
+                City = "Zwolle",
+                Country = "Nederland",
+                HouseNumber = "2",
+                Password = Hasher.Hash("wc"),
+                Username = "wc",
+                SailingLevel = 1,
+                StreetName = "Duckweg"
+            });
+
+            _context.Users.Add(new User
+            {
+                Id = 8,
+                FirstName = "Frank",
+                LastName = "Demilt",
+                City = "Zwolle",
+                Country = "Nederland",
+                HouseNumber = "2",
+                Password = Hasher.Hash("staff"),
+                Username = "staff",
+                SailingLevel = 1,
+                StreetName = "Duckweg"
+            });
+
             _context.SaveChanges();
         }
 
