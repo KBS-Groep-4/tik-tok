@@ -7,6 +7,7 @@ Person(beheerder, "Beheerder")
 Person(wedstrijdCom, "Wedstrijdcommisaris")
 Person(matCom, "Materiaalcommisaris")
 
+LAYOUT_LEFT_RIGHT
 
 System_Boundary(reserveerSysteem, "Reserveer Systeem"){
     Container(app, "Roei-Je-Rot Desktop App", "C#, .Net Core, WPF, Entity Framework")
