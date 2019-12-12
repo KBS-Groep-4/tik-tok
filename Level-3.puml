@@ -1,7 +1,6 @@
-@startuml naam
+@startuml LAYOUT_WITH_LEGEND naam
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Component.puml
-
 
 Person(lid, "Lid")
 Person(medewerker, "Medewerker")
@@ -9,6 +8,7 @@ Person(beheerder, "Beheerder")
 Person(wedstrijdCom, "Wedstrijdcommisaris")
 Person(matCom, "Materiaalcommisaris")
 
+LAYOUT_LEFT_RIGHT
 
 System_Boundary(reserveerSysteem, "Reserveer Systeem"){
     Container_Boundary(app, "Roei-Je-Rot Desktop App"){
@@ -21,18 +21,18 @@ System_Boundary(reserveerSysteem, "Reserveer Systeem"){
             Component(wedstrijdBeheer, "Wedstrijd Beheren", "C#, .NET Core, WPF")   
             Component(schadeBeheer, "Schade Beheren", "C#, .NET Core, WPF")      
         }
-        Container_Boundary(logic, "Logic"){
+        Container_Boundary(logic, "Logic"){            
             Component(inlogLogic, "Authentication Service", "C#, .NET Core")
-            Rel(lid, inlogView, "")
-            Rel(medewerker, inlogView, "")
-            Rel(beheerder, inlogView, "")
-            Rel(wedstrijdCom, inlogView, "")
-            Rel(matCom, inlogView, "")
-
             Component(boatLogic, "Boot Service", "C#, .Net Core")
             Component(reservLogic, "Reservatie Service", "C#, .Net Core")
             Component(userLogic, "Gebruiker Service", "C#, .Net Core")
             Component(emailLogic, "Email Service", "C#, .Net Core")
+
+            Rel(lid, inlogView, "Logt in")
+            Rel(medewerker, inlogView, "Logt in")
+            Rel(beheerder, inlogView, "Logt in")
+            Rel(wedstrijdCom, inlogView, "Logt in")
+            Rel(matCom, inlogView, "Logic in")
 
             Rel(inlogLogic, userLogic, "Haal gebruikers op")
             Rel(reservLogic, boatLogic, "Haal boten op")
