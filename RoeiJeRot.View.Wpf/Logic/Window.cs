@@ -16,10 +16,10 @@ namespace RoeiJeRot.View.Wpf.Logic
     /// <summary>
     /// Wrapper over `Window`.
     /// </summary>
-    public class CustomWindow<T> where T: UserControl, IEmbeddedScreen
+    public class CustomWindow<T>  where T: UserControl, IEmbeddedScreen
     {
         private System.Windows.Window _window;
-        private Stack<T> _embeddedScreens;
+        private readonly Stack<T> _embeddedScreens;
 
         public CustomWindow()
         {
