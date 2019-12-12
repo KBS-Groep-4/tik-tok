@@ -7,8 +7,11 @@ Person(beheerder, "Beheerder")
 Person(wedstrijdCom, "Wedstrijdcommisaris")
 Person(matCom, "Materiaalcommisaris")
 
+System(app, "Reserveer Systeem")
 
-Container(app, "Reserveer Systeem", "C#, MS-SQL")
+System_Ext(mail, "Gmail API")
+Rel(app, mail, "Vraagt om bericht te sturen")
+Rel(mail, lid, "Stuur mails naar")
 
 Rel(lid, app, "Maakt reserveringen met")
 Rel(medewerker, app, "Boten innemen en uitnemen en schade melden")
