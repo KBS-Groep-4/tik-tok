@@ -19,16 +19,17 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
     {
         private readonly IBoatService _boatService;
         private readonly IReservationService _reservationService;
+        private readonly IMailService _mailService;
+        
 
-        public ReservationScreen(IBoatService boatService, IReservationService reservationService)
+        public ReservationScreen(IBoatService boatService, IReservationService reservationService, IMailService mailService, WindowManager windowManager)
         {
             _boatService = boatService;
             _reservationService = reservationService;
-
+            _mailService = mailService;
             InitializeComponent();
-
             When.SelectedDate = DateTime.Today;
-
+            
             UpdateAvailableList();
         }
 
