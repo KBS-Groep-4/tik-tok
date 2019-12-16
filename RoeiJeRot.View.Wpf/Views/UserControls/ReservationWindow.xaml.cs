@@ -20,6 +20,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         private readonly IBoatService _boatService;
         private IReservationService _reservationService;
         private WindowManager _windowManager;
+        private readonly IMailService _mailService;
 
         public ObservableCollection<ReservationViewModel> Items { get; set; } =
             new ObservableCollection<ReservationViewModel>();
@@ -41,15 +42,16 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             foreach (var reservation in reservations) Items.Add(reservation);
         }
 
-        public ReservationScreen(IBoatService boatService, IReservationService reservationService, WindowManager windowManager)
+        public ReservationScreen(IBoatService boatService, IReservationService reservationService, IMailService mailService, WindowManager windowManager)
         {
             _boatService = boatService;
             _reservationService = reservationService;
+            _mailService = mailService;
             _windowManager = windowManager;
 
             InitializeComponent();
-
             When.SelectedDate = DateTime.Today;
+
             UpdateAvailableList();
 
             SetReservationData(reservationService);
@@ -82,9 +84,13 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 
                     if (When.SelectedDate.HasValue)
                     {
-                        bool result = _reservationService.PlaceReservation(selectedType.Id, 1, When.SelectedDate.Value + time,
+                        bool result = _reservationService.PlaceReservation(selectedType.Id, _windowManager.UserSession.UserId, When.SelectedDate.Value + time,
                             duration);
-                        if (result) MessageBox.Show("Reservering geplaatst");
+                        if (result)
+                        {
+                            _mailService.SendConfirmation(_windowManager.UserSession.Email, _windowManager.UserSession.FirstName, When.SelectedDate.Value, duration);
+                            MessageBox.Show("Reservering geplaatst");
+                        }
                         else MessageBox.Show("Reservatie niet geplaatst");
 
                         UpdateAvailableList();

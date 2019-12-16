@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RoeiJeRot.Logic;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.ViewModels;
 using RoeiJeRot.View.Wpf.Views.Windows;
@@ -16,17 +19,21 @@ namespace RoeiJeRot.View.Wpf.Logic
     /// </summary>
     public class WindowManager
     {
-        public CustomWindow<CustomUserControl> CurrentWindow { get; }
 
         /// <summary>
         /// DI environment that manages instantiating services.
         /// </summary>
         private readonly IHost _host;
-        
+
+        /// <summary>
+        /// The current active window.
+        /// </summary>
+        public CustomWindow<CustomUserControl> CurrentWindow { get; }
+
         /// <summary>
         /// The current authenticated username.
         /// </summary>
-        public string CurrentUserName { get; private set; }
+        public UserSession UserSession { get; private set; }
         
         public WindowManager(IHost host)
         {
@@ -39,6 +46,7 @@ namespace RoeiJeRot.View.Wpf.Logic
         /// </summary>
         public void Logout()
         {
+            UserSession = null;
             ShowLogin();
         }
 
@@ -60,10 +68,17 @@ namespace RoeiJeRot.View.Wpf.Logic
         public bool ShowMainWindow(string username, string password)
         {
             var authenticationService = GetService<IAuthenticationService>();
-            
+            var userService = GetService<IUserService>();
+
             if (authenticationService.AuthenticateUser(username, password))
             {
-                CurrentUserName = username;
+                var user =  userService.GetUserByUserName(username);
+
+                var permissions = userService.GetUserPermissions(user.Id);
+                PermissionType permissionType = Roles.GetPermissionType(permissions);
+              
+                UserSession = new UserSession(user.Id, user.Username, user.Email, user.FirstName, user.LastName, permissionType);
+
                 CurrentWindow.ShowNew(GetWindow<MainWindow>());
                 return true;
             }
@@ -76,9 +91,9 @@ namespace RoeiJeRot.View.Wpf.Logic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private System.Windows.Window GetWindow<T>() where T: System.Windows.Window
+        private Window GetWindow<T>() where T: Window
         {
-            return (System.Windows.Window)_host.Services.GetService<T>();
+            return (Window)_host.Services.GetService<T>();
         }
 
         /// <summary>

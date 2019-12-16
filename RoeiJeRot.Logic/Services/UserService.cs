@@ -14,6 +14,10 @@ namespace RoeiJeRot.Logic.Services
         /// </summary>
         /// <returns></returns>
         List<User> GetUsers();
+
+        User GetUserByUserName(string username);
+
+        string[] GetUserPermissions(int userId);
     }
 
     public class UserService : IUserService
@@ -29,6 +33,16 @@ namespace RoeiJeRot.Logic.Services
         public List<User> GetUsers()
         {
             return _context.Users.ToList();
+        }
+
+        public User GetUserByUserName(string username)
+        {
+           return  _context.Users.FirstOrDefault(x => x.Username == username);
+        }
+
+        public string[] GetUserPermissions(int userId)
+        {
+            return _context.PermissionUsers.Where(x => x.UserId == userId).Select(x => x.Permission.Name).ToArray();
         }
     }
 }
