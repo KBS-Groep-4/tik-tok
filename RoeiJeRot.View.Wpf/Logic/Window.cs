@@ -6,13 +6,6 @@ using RoeiJeRot.View.Wpf.Views.Windows;
 
 namespace RoeiJeRot.View.Wpf.Logic
 {
-    public class CustomUserControl : UserControl, IEmbeddedScreen
-    {
-        public void OnClose()
-        {
-        }
-    }
-
     /// <summary>
     /// Wrapper over `Window`.
     /// </summary>
