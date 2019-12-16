@@ -5,6 +5,9 @@ using System.Text;
 
 namespace RoeiJeRot.Logic
 {
+    /// <summary>
+    /// The permission a user can have.
+    /// </summary>
     [Flags]
     public enum PermissionType
     {
@@ -16,6 +19,9 @@ namespace RoeiJeRot.Logic
         Staff = 32
     }
 
+    /// <summary>
+    /// Wrapper over the roles of Roei Je Rot.
+    /// </summary>
     public class Roles
     {
         public const string ADMIN = "ADMIN";
@@ -24,6 +30,11 @@ namespace RoeiJeRot.Logic
         public const string MC = "MC";
         public const string STAFF = "STAFF";
 
+        /// <summary>
+        /// Returns an `PermissionType` from the given permissions.
+        /// </summary>
+        /// <param name="permissions"></param>
+        /// <returns></returns>
         public static PermissionType GetPermissionType(string[] permissions)
         {
             PermissionType permissionType = PermissionType.None;
