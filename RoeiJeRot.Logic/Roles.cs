@@ -12,11 +12,11 @@ namespace RoeiJeRot.Logic
     public enum PermissionType
     {
         None = 0,
-        Admin = 2,
-        Member = 4,
-        Mc = 8,
-        Wc = 16,
-        Staff = 32
+        Admin = 1,
+        Member = 2,
+        Mc = 4,
+        Wc = 8,
+        Staff = 16
     }
 
     /// <summary>
