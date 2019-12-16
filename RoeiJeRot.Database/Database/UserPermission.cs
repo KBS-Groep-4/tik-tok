@@ -11,6 +11,5 @@ namespace RoeiJeRot.Database.Database
 
         public virtual Permission Permission { get; set; }
         public virtual User User { get; set; }
-
     }
 }
