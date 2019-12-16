@@ -15,10 +15,15 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <DockPanel>
-        <components:HeaderBar x:Name="headerBar" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=window}" Height="40"/>
-        <StackPanel x:Name="pnlPageButtons"  DockPanel.Dock="Left" Width="322">
-            <StackPanel.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <components:HeaderBar x:Name="headerBar" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=window}" Height="40"/>
+            <StackPanel x:Name="pnlPageButtons"  DockPanel.Dock="Left" Width="322">
+                <StackPanel.Resources>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="0,10,0,10"/>
                     <Setter Property="BorderThickness" Value="0"/>
@@ -36,8 +41,10 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="12*"/>
+                <RowDefinition Height="19*"/>
             </Grid.RowDefinitions>
         </Grid>
-    </DockPanel>
+        </DockPanel>
+        <Label Content="What the fuck is going on." Grid.Row="1" Background="#007acc" BorderBrush="#0058aa" BorderThickness="1" Foreground="White" FontSize="8"/>
+    </Grid>
 </Window>

@@ -18,18 +18,42 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
     public partial class ReservationScreen : CustomUserControl
     {
         private readonly IBoatService _boatService;
-        private readonly IReservationService _reservationService;
+        private IReservationService _reservationService;
+        private WindowManager _windowManager;
 
-        public ReservationScreen(IBoatService boatService, IReservationService reservationService)
+        public ObservableCollection<ReservationViewModel> Items { get; set; } =
+            new ObservableCollection<ReservationViewModel>();
+
+        // Set data for the reservations view.
+        public void SetReservationData(IReservationService reservationService)
+        {
+            _reservationService = reservationService;
+            var reservations = reservationService.GetFutureReservations(2)
+                .Select(r => new ReservationViewModel
+                {
+                    Id = r.Id,
+                    ReservationDate = r.Date.ToString("g"),
+                    Duration = r.Duration.ToString(@"hh\:mm"),
+                    ReservedByUserId = r.ReservedBy.Username,
+                    ReservedBoatId = r.ReservedSailingBoatId
+                }).ToList();
+
+            foreach (var reservation in reservations) Items.Add(reservation);
+        }
+
+        public ReservationScreen(IBoatService boatService, IReservationService reservationService, WindowManager windowManager)
         {
             _boatService = boatService;
             _reservationService = reservationService;
+            _windowManager = windowManager;
 
             InitializeComponent();
 
             When.SelectedDate = DateTime.Today;
-
             UpdateAvailableList();
+
+            SetReservationData(reservationService);
+            DeviceDataGrid.ItemsSource = Items;
         }
 
         public ObservableCollection<BoatTypeViewModel> ObservableAvailableTypes { get; set; }
@@ -117,6 +141,16 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 
         public void OnClose()
         {
+        }
+
+        private void OnCancelClick(object sender, RoutedEventArgs e)
+        {
+            foreach (var data in DeviceDataGrid.SelectedItems)
+            {
+                _reservationService.CancelReservation(((ReservationViewModel)data).Id);
+            }
+
+            MessageBox.Show("Reservering(en) verwijderd");
         }
     }
 }
