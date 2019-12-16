@@ -71,7 +71,7 @@ namespace RoeiJeRot.View.Wpf.Logic
             {
                 var user =  userService.GetUserByUserName(username);
                 
-                UserSession = new UserSession(user.Username, user.Email, user.FirstName, user.LastName);
+                UserSession = new UserSession(user.Id, user.Username, user.Email, user.FirstName, user.LastName);
                 CurrentWindow.ShowNew(GetWindow<MainWindow>());
                 return true;
             }
