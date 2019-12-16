@@ -23,6 +23,19 @@ namespace RoeiJeRot.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "permissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_permissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -60,6 +73,32 @@ namespace RoeiJeRot.Database.Migrations
                         name: "FK_sailing_boats_boat_types_BoatTypeId",
                         column: x => x.BoatTypeId,
                         principalTable: "boat_types",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_permissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PermissionId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_permissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_user_permissions_permissions_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_permissions_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -207,6 +246,16 @@ namespace RoeiJeRot.Database.Migrations
                 name: "IX_sailing_reservations_ReservedSailingBoatId",
                 table: "sailing_reservations",
                 column: "ReservedSailingBoatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_permissions_PermissionId",
+                table: "user_permissions",
+                column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_permissions_UserId",
+                table: "user_permissions",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -218,7 +267,13 @@ namespace RoeiJeRot.Database.Migrations
                 name: "sailing_competition_participants");
 
             migrationBuilder.DropTable(
+                name: "user_permissions");
+
+            migrationBuilder.DropTable(
                 name: "sailing_competitions");
+
+            migrationBuilder.DropTable(
+                name: "permissions");
 
             migrationBuilder.DropTable(
                 name: "sailing_reservations");

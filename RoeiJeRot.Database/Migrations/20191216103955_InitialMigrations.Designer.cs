@@ -10,7 +10,7 @@ using RoeiJeRot.Database.Database;
 namespace RoeiJeRot.Database.Migrations
 {
     [DbContext(typeof(RoeiJeRotDbContext))]
-    [Migration("20191212103509_InitialMigrations")]
+    [Migration("20191216103955_InitialMigrations")]
     partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,21 @@ namespace RoeiJeRot.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("boat_types");
+                });
+
+            modelBuilder.Entity("RoeiJeRot.Database.Database.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("permissions");
                 });
 
             modelBuilder.Entity("RoeiJeRot.Database.Database.SailingBoat", b =>
@@ -208,6 +223,28 @@ namespace RoeiJeRot.Database.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("RoeiJeRot.Database.Database.UserPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("user_permissions");
+                });
+
             modelBuilder.Entity("RoeiJeRot.Database.Database.SailingBoat", b =>
                 {
                     b.HasOne("RoeiJeRot.Database.Database.BoatType", "BoatType")
@@ -267,6 +304,21 @@ namespace RoeiJeRot.Database.Migrations
                     b.HasOne("RoeiJeRot.Database.Database.SailingBoat", "ReservedSailingBoat")
                         .WithMany("SailingReservations")
                         .HasForeignKey("ReservedSailingBoatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoeiJeRot.Database.Database.UserPermission", b =>
+                {
+                    b.HasOne("RoeiJeRot.Database.Database.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RoeiJeRot.Database.Database.User", "User")
+                        .WithMany("Permissions")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

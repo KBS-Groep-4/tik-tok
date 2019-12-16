@@ -2,7 +2,7 @@
 
 namespace RoeiJeRot.Database.Database
 {
-    [Table("permissions")]
+    [Table("user_permissions")]
     public class UserPermission
     {
         public int Id { get; set; }
