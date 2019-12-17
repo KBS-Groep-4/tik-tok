@@ -21,15 +21,15 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         private IReservationService _reservationService;
         private WindowManager _windowManager;
         private readonly IMailService _mailService;
+        public event EventHandler<MessageArgs> StatusMessageUpdate;
 
         public ObservableCollection<ReservationViewModel> Items { get; set; } =
             new ObservableCollection<ReservationViewModel>();
 
         // Set data for the reservations view.
-        public void SetReservationData(IReservationService reservationService)
+        public void SetReservationData()
         {
-            _reservationService = reservationService;
-            var reservations = reservationService.GetFutureReservations(2)
+            var reservations = _reservationService.GetFutureReservations(_windowManager.UserSession.UserId)
                 .Select(r => new ReservationViewModel
                 {
                     Id = r.Id,
@@ -39,6 +39,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                     ReservedBoatId = r.ReservedSailingBoatId
                 }).ToList();
 
+            Items.Clear();
             foreach (var reservation in reservations) Items.Add(reservation);
         }
 
@@ -54,7 +55,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 
             UpdateAvailableList();
 
-            SetReservationData(reservationService);
+            SetReservationData();
             DeviceDataGrid.ItemsSource = Items;
         }
 
@@ -76,7 +77,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                     var selectedItemObject = AvailableBoats.SelectedItem;
                     if (selectedItemObject == null)
                     {
-                        MessageBox.Show("Geen boot geselecteerd");
+                        StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering niet geplaatst: Geen boot geselecteerd.", "error"));
                         return;
                     }
 
@@ -85,13 +86,19 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                     if (When.SelectedDate.HasValue)
                     {
                         bool result = _reservationService.PlaceReservation(selectedType.Id, _windowManager.UserSession.UserId, When.SelectedDate.Value + time,
-                            duration);
+                            duration).IsValid;
+                        string message = _reservationService.PlaceReservation(selectedType.Id, _windowManager.UserSession.UserId, When.SelectedDate.Value + time,
+                            duration).Reason;
                         if (result)
                         {
                             _mailService.SendConfirmation(_windowManager.UserSession.Email, _windowManager.UserSession.FirstName, When.SelectedDate.Value, duration);
-                            MessageBox.Show("Reservering geplaatst");
+                            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering geplaatst.", "succeed"));
+                            SetReservationData();
                         }
-                        else MessageBox.Show("Reservatie niet geplaatst");
+                        else
+                        {
+                            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering niet geplaatst: " + message, "error"));
+                        }
 
                         UpdateAvailableList();
                     }
@@ -145,10 +152,6 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             }
         }
 
-        public void OnClose()
-        {
-        }
-
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             foreach (var data in DeviceDataGrid.SelectedItems)
@@ -156,7 +159,8 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 _reservationService.CancelReservation(((ReservationViewModel)data).Id);
             }
 
-            MessageBox.Show("Reservering(en) verwijderd");
+            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering(en) verwijderd.", "cancel"));
+            SetReservationData();
         }
     }
 }
