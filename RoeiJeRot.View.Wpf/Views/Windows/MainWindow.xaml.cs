@@ -38,6 +38,10 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             var reservationWindow = new Button() { Content = "Reservering Plaatsen", };
             reservationWindow.Click += OnReservationClick;
             pnlPageButtons.Children.Add(reservationWindow);
+
+            var boatOverviewWindow = new Button() { Content = "Boten Overzicht", };
+            boatOverviewWindow.Click += OnBoatOverviewClick;
+            pnlPageButtons.Children.Add(boatOverviewWindow);
         }
 
         private void OnReservationOverviewClick(object sender, RoutedEventArgs e)
@@ -57,6 +61,17 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             {
                 _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
                     .CreateInstance<ReservationScreen>());
+            }
+
+            OnScreenUpdate();
+        }
+
+        private void OnBoatOverviewClick(object sender, RoutedEventArgs e)
+        {
+            if (e.Source is Button)
+            {
+                _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
+                    .CreateInstance<BoatOverviewWindow>());
             }
 
             OnScreenUpdate();

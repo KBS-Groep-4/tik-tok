@@ -15,7 +15,8 @@ namespace RoeiJeRot.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PossiblePassengers = table.Column<int>(nullable: false),
                     RequiredLevel = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    HasCommanderSeat = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

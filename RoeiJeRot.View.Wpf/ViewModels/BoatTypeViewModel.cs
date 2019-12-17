@@ -6,6 +6,6 @@
         public int PossiblePassengers { get; set; }
         public int RequiredLevel { get; set; }
         public string Name { get; set; }
-        protected bool HasCommanderSeat { get; set; }
+        public bool HasCommanderSeat { get; set; }
     }
 }

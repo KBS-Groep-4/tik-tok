@@ -10,7 +10,7 @@ using RoeiJeRot.Database.Database;
 namespace RoeiJeRot.Database.Migrations
 {
     [DbContext(typeof(RoeiJeRotDbContext))]
-    [Migration("20191203075036_InitialMigrations")]
+    [Migration("20191212152518_InitialMigrations")]
     partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace RoeiJeRot.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("HasCommanderSeat")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
