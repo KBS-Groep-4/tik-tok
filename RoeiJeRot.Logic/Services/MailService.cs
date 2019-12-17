@@ -10,6 +10,7 @@ namespace RoeiJeRot.Logic.Services
     public interface IMailService
     {
         void SendConfirmation(string email, string firstName, DateTime datum, TimeSpan tijd);
+        void SendCancelConfirmation(string email, string firstName, DateTime datum);
     }
     public class MailService : IMailService
     {
@@ -38,9 +39,9 @@ namespace RoeiJeRot.Logic.Services
                 str.AppendLine("VERSION:2.0");
                 str.AppendLine("METHOD:REQUEST");
                 str.AppendLine("BEGIN:VEVENT");
-                str.AppendLine(string.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", datum));
-                str.AppendLine(string.Format("DTSTAMP:{0:yyyyMMddTHHmmssZ}", DateTime.UtcNow));
-                str.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmssZ}", datum + tijd));
+                str.AppendLine(string.Format("DTSTART:{0:yyyyMMddTHHmmss}", datum));
+                str.AppendLine(string.Format("DTSTAMP:{0:yyyyMMddTHHmmss}", DateTime.UtcNow));
+                str.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmss}", datum + tijd));
                 str.AppendLine("LOCATION: Vereneging Roei-je-Rot");
                 str.AppendLine(string.Format("UID:{0}", Guid.NewGuid()));
                 str.AppendLine(string.Format("DESCRIPTION: Reservering Roei-je-Rot"));
@@ -90,6 +91,43 @@ namespace RoeiJeRot.Logic.Services
             {
                 Console.Error.WriteLine("Error while sending mail.");
             }
+        }
+
+        public void SendCancelConfirmation(string email, string firstName, DateTime datum)
+        {
+            MailMessage mailtje = new MailMessage();
+            mailtje.From = fromAddress;
+            mailtje.To.Add(new MailAddress(email, firstName));
+            mailtje.Subject = "Bevestiging reservering annuleren";
+            mailtje.Body = $"Beste {firstName}" + Environment.NewLine + Environment.NewLine +
+                           $"Je ontvangt deze mail omdat je een reservering hebt geanuleerd voor een boot op {datum.ToString("d")}." +
+                           Environment.NewLine + Environment.NewLine +
+                           "We hopen u nog een keer weer te zien bij onze vereniging!" + Environment.NewLine + Environment.NewLine +
+                           "Met vriendelijke groeten," + Environment.NewLine +
+                           Environment.NewLine +
+                           "Roeivereniging Roei-je-Rot";
+            try
+            {
+                using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential()
+                    {
+                        UserName = "roeijerot@gmail.com",
+                        Password = "Gruppe4KBS",
+                    };
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.EnableSsl = true;
+
+
+                    //smtpClient.Send("targetemail@targetdomain.xyz", "myemail@gmail.com", "Account verification", body);
+                    smtpClient.Send(mailtje);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("{0}: {1}", e.ToString(), e.Message);
+            }       
         }
     }
 }
