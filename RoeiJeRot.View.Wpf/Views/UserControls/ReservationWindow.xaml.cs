@@ -33,7 +33,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 .Select(r => new ReservationViewModel
                 {
                     Id = r.Id,
-                    ReservationDate = r.Date.ToString("g"),
+                    ReservationDate = r.Date,
                     Duration = r.Duration.ToString(@"hh\:mm"),
                     ReservedByUserId = r.ReservedBy.Username,
                     ReservedBoatId = r.ReservedSailingBoatId
