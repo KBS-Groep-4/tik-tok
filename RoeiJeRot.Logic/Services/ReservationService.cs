@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic.Helper;
@@ -12,7 +13,7 @@ namespace RoeiJeRot.Logic.Services
         /// <summary>
         ///     Places an new boat reservation on the given date with duration.
         /// </summary>
-        bool PlaceReservation(int boatType, int memberId, DateTime reservationDate, TimeSpan duration);
+        ReservationConstraintsMessage PlaceReservation(int boatType, int memberId, DateTime reservationDate, TimeSpan duration);
 
         /// <summary>
         ///     Returns all reservations from the current data
@@ -33,7 +34,18 @@ namespace RoeiJeRot.Logic.Services
         /// <returns>A list of reservations that could not be reallocated</returns>
         List<SailingReservation> AllocateBoatReservations(int boatId);
 
+        /// <summary>
+        ///     Returns a list of boats which can be reserved on the given date.
+        /// </summary>
+        /// <param name="reservationDate"></param>
+        /// <param name="duration"></param>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
+        List<SailingBoat> GetAvailableBoats(DateTime reservationDate, TimeSpan duration);
+
         List<SailingReservation> GetFutureReservations(int memberId);
+
+        List<BoatType> AvailableBoatTypes(DateTime reservationDateTime, TimeSpan duration);
     }
 
     public class ReservationService : IReservationService
@@ -49,13 +61,14 @@ namespace RoeiJeRot.Logic.Services
 
 
         /// <inheritdoc />
-        public bool PlaceReservation(int boatType, int memberId, DateTime reservationDate, TimeSpan duration)
+        public ReservationConstraintsMessage PlaceReservation(int boatType, int memberId, DateTime reservationDate, TimeSpan duration)
         {
-            var availableBoats = _boatService.GetAvailableBoats(reservationDate, duration).Where(boat => boat.BoatTypeId == boatType && boat.Status != (int)BoatState.InService).ToList();
+            var availableBoats = GetAvailableBoats(reservationDate, duration).Where(boat => boat.BoatTypeId == boatType && boat.Status != (int)BoatState.InService).ToList();
 
             // Checks if the reservation doesn't violate any constraints
             ReservationConstraintsMessage message = ReservationConstraints.IsValid(reservationDate, duration, this, memberId);
-            if (!message.IsValid) return false;
+
+            if (!message.IsValid) return message;
             
             // Check if there is an available boat
             if (availableBoats.Count > 0)
@@ -83,16 +96,35 @@ namespace RoeiJeRot.Logic.Services
                 });
 
                 _context.SaveChanges();
-                return true;
+                return new ReservationConstraintsMessage(true, "valid");
             }
 
-            return false;
+            return new ReservationConstraintsMessage(false, "Geen boten beschikbaar.");
         }
 
         public List<SailingReservation> GetFutureReservations(int memberId)
         {
-            var user = _context.Users.Where(user => user.Id == memberId).ToList()[0];
+            var user = _context.Users.Where(user => user.Id == memberId).Include(x => x.Reservations).ToList()[0];
             return user.Reservations.Where(reserv => (reserv.Date + reserv.Duration) >= DateTime.Now && reserv.ReservedByUserId == memberId).ToList();
+        }
+
+        public List<BoatType> AvailableBoatTypes(DateTime reservationDateTime, TimeSpan duration)
+        {
+            var boats = GetAvailableBoats(reservationDateTime,
+                duration);
+            var availableTypes = new List<BoatType>();
+
+            foreach (var boat in boats)
+            {
+                var alreadyIn = false;
+                foreach (var type in availableTypes)
+                    if (type.Id == boat.BoatTypeId)
+                        alreadyIn = true;
+
+                if (!alreadyIn) availableTypes.Add(boat.BoatType);
+            }
+
+            return availableTypes;
         }
 
         /// <inheritdoc />
@@ -133,7 +165,7 @@ namespace RoeiJeRot.Logic.Services
                 DateTime reservationDate = reservation.Date;
                 TimeSpan reservationDuration = reservation.Duration;
 
-                if(!PlaceReservation(boatType, boatUser, reservationDate, reservationDuration)) 
+                if(!PlaceReservation(boatType, boatUser, reservationDate, reservationDuration).IsValid) 
                     notReAllocatable.Add(reservation);
 
                 _context.Remove(reservation);
@@ -141,6 +173,28 @@ namespace RoeiJeRot.Logic.Services
             }
 
             return notReAllocatable;
+        }
+
+        public List<SailingBoat> GetAvailableBoats(DateTime reservationDate, TimeSpan duration)
+        {
+            var boats = _boatService.GetAllBoats();
+            var availableBoats = new List<SailingBoat>();
+
+            foreach (var boat in boats)
+            {
+                var available = true;
+                foreach (var reserv in boat.SailingReservations)
+                {
+                    Console.WriteLine(
+                        $"Checking {reserv.Date} - {reserv.Duration} on {reservationDate} - {duration} --> {DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration)}");
+                    if (!DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration))
+                        available = false;
+                }
+
+                if (available) availableBoats.Add(boat);
+            }
+
+            return availableBoats;
         }
     }
 }

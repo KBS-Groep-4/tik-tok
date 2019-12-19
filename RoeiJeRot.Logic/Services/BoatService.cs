@@ -39,7 +39,6 @@ namespace RoeiJeRot.Logic.Services
         /// <param name="typeId"></param>
         /// <returns></returns>
         List<SailingBoat> GetAvailableBoats(DateTime reservationDate, TimeSpan duration);
-        bool ReportDamage(int boatType, int memberId, DateTime datum);
     }
 
     public class BoatService : IBoatService
@@ -73,28 +72,6 @@ namespace RoeiJeRot.Logic.Services
             if (boat != null) boat.Status = (int)status;
 
             _context.SaveChanges();
-        }
-
-        public List<SailingBoat> GetAvailableBoats(DateTime reservationDate, TimeSpan duration)
-        {
-            var boats = GetAllBoats();
-            var availableBoats = new List<SailingBoat>();
-
-            foreach (var boat in boats)
-            {
-                var available = true;
-                foreach (var reserv in boat.SailingReservations)
-                {
-                    Console.WriteLine(
-                        $"Checking {reserv.Date} - {reserv.Duration} on {reservationDate} - {duration} --> {DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration)}");
-                    if (!DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration))
-                        available = false;
-                }
-
-                if (available) availableBoats.Add(boat);
-            }
-
-            return availableBoats;
         }
 
         /// <inheritdoc />
