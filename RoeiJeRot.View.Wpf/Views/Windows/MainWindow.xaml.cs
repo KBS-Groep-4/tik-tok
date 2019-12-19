@@ -11,6 +11,7 @@ using RoeiJeRot.Logic;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
 using RoeiJeRot.View.Wpf.Views.UserControls;
+using Type = RoeiJeRot.View.Wpf.Views.UserControls.Type;
 using Window = System.Windows.Window;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows
@@ -113,11 +114,11 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
             StatusLabel.Content = args.Message;
             switch (args.Type)
             {
-                case 1:
+                case Type.Red:
                     StatusLabel.Background = Brushes.Red;
                     StatusLabel.BorderBrush = Brushes.Red;
                     break;
-                case 2:
+                case Type.Green:
                     StatusLabel.Background = Brushes.LimeGreen;
                     StatusLabel.BorderBrush = Brushes.LimeGreen;
                     break;

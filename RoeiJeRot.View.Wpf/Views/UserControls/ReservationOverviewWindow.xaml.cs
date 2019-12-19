@@ -12,11 +12,19 @@ using RoeiJeRot.View.Wpf.Views.Windows;
 
 namespace RoeiJeRot.View.Wpf.Views.UserControls
 {
+    public enum Type
+    {
+        Red = 0,
+        Green = 1
+    }
+
     public class MessageArgs : EventArgs
     {
-        public string Message { get; set; }
-        public int Type { get; set; }
-        public MessageArgs(string message, int type)
+        public string Message { get; private set; }
+        public Type Type { get; private set; }
+        
+
+        public MessageArgs(string message, Type type)
         {
             Message = message;
             Type = type;
@@ -72,7 +80,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 _mailService.SendCancelConfirmation(model.Email, model.FirstName, model.ReservationDate);
                 _reservationService.CancelReservation((model).Id);
             }
-            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering(en) verwijderd.", 2));
+            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering(en) verwijderd.", Type.Green));
             toRemoveModel.ForEach(x => Items.Remove(x));
         }
     }
