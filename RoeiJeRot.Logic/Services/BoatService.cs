@@ -30,6 +30,8 @@ namespace RoeiJeRot.Logic.Services
         /// <param name="boatId">The boat identifier.</param>
         /// <param name="status"></param>
         void UpdateBoatStatus(int boatId, BoatState status);
+
+        bool ReportDamage(int boatType, int memberId, DateTime datum);
     }
 
     public class BoatService : IBoatService
@@ -60,7 +62,7 @@ namespace RoeiJeRot.Logic.Services
         {
             var boat = _context.SailingBoats.FirstOrDefault(b => b.Id == boatId);
 
-            if (boat != null) boat.Status = (int) status;
+            if (boat != null) boat.Status = (int)status;
 
             _context.SaveChanges();
         }
@@ -69,6 +71,20 @@ namespace RoeiJeRot.Logic.Services
         public List<SailingBoat> GetBoats()
         {
             return _context.SailingBoats.Include(x => x.BoatType).ToList();
+        }
+
+        public bool ReportDamage(int boatType, int memberId, DateTime datum)
+        {
+            //Create a reservation for this boat
+            _context.SailingBoatDamageReports.Add(new SailingBoatDamageReport
+            {
+                DamagedSailingBoatId = boatType,
+                DamagedAtDate = DateTime.Now,
+                DamagedById = memberId
+            });
+
+            _context.SaveChanges();
+            return true;
         }
     }
 }

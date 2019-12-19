@@ -75,13 +75,14 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 {
                     if (AvailableTimes.SelectedItem != null && AvailableBoats.SelectedItem != null)
                     {
-                        TimeSpan selectedTime = (TimeSpan) AvailableTimes.SelectedItem;
+                        TimeSpan selectedTime = ((TimeViewModel) AvailableTimes.SelectedItem).Time;
                         BoatType selectedType = (BoatType) AvailableBoats.SelectedItem;
 
                         ReservationConstraintsMessage msg = _reservationService.PlaceReservation(selectedType.Id, _windowManager.UserSession.UserId,
-                            When.SelectedDate.Value, duration);
+                            When.SelectedDate.Value + selectedTime, duration);
 
-                        if(msg.IsValid) StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering Geplaatst"));
+                        StatusMessageUpdate?.Invoke(this, new MessageArgs(msg.Reason, msg.IsValid ? Type.Green: Type.Red));
+                        return;
                     }
                 }
             }
@@ -109,16 +110,18 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 else
                 {
                     BoatType selectedType = (BoatType) AvailableBoats.SelectedItem;
-                    bool hasType = false;
+                    bool hasTypeAvailable = false;
                     foreach (BoatType type in TimeAvailableTypes[availableTime])
                     {
                         if (type.Id == selectedType.Id)
-                            hasType = true;
+                            hasTypeAvailable = true;
                     }
-                    if(hasType) times.Add(new TimeViewModel
-                    {
-                        Time = availableTime
-                    });
+
+                    if (hasTypeAvailable)
+                        times.Add(new TimeViewModel
+                        {
+                            Time = availableTime
+                        });
                 }
             }
             AvailableTimes.ItemsSource = times;
@@ -163,7 +166,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                         {
                             if (DayChecker.IsDay(When.SelectedDate.Value + i, duration))
                             {
-                                List<BoatType> availableTypes = _reservationService.AvailableBoatTypes(When.SelectedDate.Value, duration);
+                                List<BoatType> availableTypes = _reservationService.AvailableBoatTypes(When.SelectedDate.Value + i, duration);
                                 if (availableTypes.Any())
                                 {
                                     TimeAvailableTypes[i] = availableTypes;
@@ -184,7 +187,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 _reservationService.CancelReservation(((ReservationViewModel)data).Id);
             }
 
-            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering(en) verwijderd.", "cancel"));
+            StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering(en) verwijderd.", Type.Green));
             SetReservationData();
         }
     }
