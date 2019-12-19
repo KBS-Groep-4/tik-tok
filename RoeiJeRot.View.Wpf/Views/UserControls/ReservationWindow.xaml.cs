@@ -99,32 +99,35 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         }
         private void updateTimeList()
         {
-            ObservableCollection<TimeViewModel> times = new ObservableCollection<TimeViewModel>();
-            foreach (TimeSpan availableTime in TimeAvailableTypes.Keys)
+            if(AvailableTimes.SelectedItem == null)
             {
-                if(AvailableBoats.SelectedItem == null)
-                    times.Add(new TimeViewModel
-                    {
-                        Time = availableTime
-                    });
-                else
+                ObservableCollection<TimeViewModel> times = new ObservableCollection<TimeViewModel>();
+                foreach (TimeSpan availableTime in TimeAvailableTypes.Keys)
                 {
-                    BoatType selectedType = (BoatType) AvailableBoats.SelectedItem;
-                    bool hasTypeAvailable = false;
-                    foreach (BoatType type in TimeAvailableTypes[availableTime])
-                    {
-                        if (type.Id == selectedType.Id)
-                            hasTypeAvailable = true;
-                    }
-
-                    if (hasTypeAvailable)
+                    if (AvailableBoats.SelectedItem == null)
                         times.Add(new TimeViewModel
                         {
                             Time = availableTime
                         });
+                    else
+                    {
+                        BoatType selectedType = (BoatType)AvailableBoats.SelectedItem;
+                        bool hasTypeAvailable = false;
+                        foreach (BoatType type in TimeAvailableTypes[availableTime])
+                        {
+                            if (type.Id == selectedType.Id)
+                                hasTypeAvailable = true;
+                        }
+
+                        if (hasTypeAvailable)
+                            times.Add(new TimeViewModel
+                            {
+                                Time = availableTime
+                            });
+                    }
                 }
+                AvailableTimes.ItemsSource = times;
             }
-            AvailableTimes.ItemsSource = times;
         }
 
         public void OnTimeChange(object sender, EventArgs args)
@@ -133,24 +136,38 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         }
         private void updateBoatTypeList()
         {
-            ObservableCollection<BoatType> typesObservableCollection = new ObservableCollection<BoatType>();
-            List<BoatType> types = new List<BoatType>();
-            foreach (List<BoatType> boatTypes in TimeAvailableTypes.Values)
+            if (AvailableBoats.SelectedItem == null)
             {
-                foreach (BoatType boatType in boatTypes)
+                ObservableCollection<BoatType> typesObservableCollection = new ObservableCollection<BoatType>();
+                if (AvailableTimes.SelectedItem == null)
                 {
-                    types.Add(boatType);
+                    List<BoatType> types = new List<BoatType>();
+                    foreach (List<BoatType> boatTypes in TimeAvailableTypes.Values)
+                    {
+                        foreach (BoatType boatType in boatTypes)
+                        {
+                            types.Add(boatType);
+                        }
+                    }
+
+                    types = types.GroupBy(x => x.Id).Select(x => x.First()).ToList();
+
+                    foreach (BoatType boatType in types)
+                    {
+                        typesObservableCollection.Add(boatType);
+                    }
                 }
+                else
+                {
+                    TimeSpan selectedTime = ((TimeViewModel)AvailableTimes.SelectedItem).Time;
+
+                    foreach (BoatType boatType in TimeAvailableTypes[selectedTime])
+                    {
+                        typesObservableCollection.Add(boatType);
+                    }
+                }
+                AvailableBoats.ItemsSource = typesObservableCollection;
             }
-
-            types = types.GroupBy(x => x.Id).Select(x => x.First()).ToList();
-
-            foreach (BoatType boatType in types)
-            {
-                typesObservableCollection.Add(boatType);
-            }
-
-            AvailableBoats.ItemsSource = typesObservableCollection;
         }
 
         public void UpdateTimeAvailableTypes()

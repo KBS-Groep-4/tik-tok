@@ -45,7 +45,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical" Margin="10,10,10,4" Grid.Column="0">
                     <Label Content="Beschikbare Tijden" FontSize="25" />
-                    <ListView Margin="5" Name="AvailableTimes" FontWeight="bold" Height="400" SelectionMode="Single">
+                    <ListView Margin="5" Name="AvailableTimes" FontWeight="bold" Height="400" SelectionMode="Single" SelectionChanged="OnTimeChange">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Tijd" Width="80" DisplayMemberBinding="{Binding Time}" />
