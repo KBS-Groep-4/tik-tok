@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RoeiJeRot.Logic;
+﻿using RoeiJeRot.Logic;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
-using RoeiJeRot.View.Wpf.Views.Windows;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 
 namespace RoeiJeRot.View.Wpf.Views.UserControls
 {
@@ -59,15 +48,12 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             foreach (var boat in boats)
             {
                 var status = (BoatState)Enum.Parse(typeof(BoatState), boat.Status);
-                if (status == BoatState.InUse || status == BoatState.InStock)
-                {
-                    if (status == BoatState.InUse) boat.Status = "In gebruik";
-                    if (status == BoatState.InStock) boat.Status = "In magazijn";
-                    if (status == BoatState.InService) boat.Status = "Schade";
-                    if (boat.HasCommanderSeat.Equals("True")) boat.HasCommanderSeat = "Ja";
-                    if (boat.HasCommanderSeat.Equals("False")) boat.HasCommanderSeat = "Nee";
-                    Items.Add(boat);
-                }
+                if (status == BoatState.InUse) boat.Status = "In gebruik";
+                if (status == BoatState.InStock) boat.Status = "In magazijn";
+                if (status == BoatState.InService) boat.Status = "Schade";
+                if (boat.HasCommanderSeat.Equals("True")) boat.HasCommanderSeat = "Ja";
+                if (boat.HasCommanderSeat.Equals("False")) boat.HasCommanderSeat = "Nee";
+                Items.Add(boat);
             }
         }
 
@@ -123,5 +109,5 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 }
 
 
-    
+
 

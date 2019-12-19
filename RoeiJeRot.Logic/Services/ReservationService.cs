@@ -51,12 +51,14 @@ namespace RoeiJeRot.Logic.Services
     public class ReservationService : IReservationService
     {
         private readonly IBoatService _boatService;
+        private readonly IMailService _mailService;
         private readonly RoeiJeRotDbContext _context;
 
-        public ReservationService(RoeiJeRotDbContext context, IBoatService boatService)
+        public ReservationService(RoeiJeRotDbContext context, IBoatService boatService, IMailService mailService)
         {
             _context = context;
             _boatService = boatService;
+            _mailService = mailService;
         }
 
 
@@ -174,7 +176,7 @@ namespace RoeiJeRot.Logic.Services
 
             foreach (SailingReservation reservation in notReAllocatable)
             {
-                //new MailService().SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName, reservation.Date);
+                _mailService.SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName, reservation.Date);
             }
             return notReAllocatable;
         }
