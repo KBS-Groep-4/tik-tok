@@ -11,6 +11,8 @@ namespace RoeiJeRot.Logic.Services
     {
         void SendConfirmation(string email, string firstName, DateTime datum, TimeSpan tijd);
         void SendCancelConfirmation(string email, string firstName, DateTime datum);
+        void SendCancelMail(string email, string firstName, DateTime datum);
+
     }
     public class MailService : IMailService
     {
@@ -94,7 +96,6 @@ namespace RoeiJeRot.Logic.Services
                 Console.Error.WriteLine("Error while sending mail.");
             }
         }
-
         public void SendCancelConfirmation(string email, string firstName, DateTime datum)
         {
             MailMessage mail = new MailMessage();
@@ -129,6 +130,41 @@ namespace RoeiJeRot.Logic.Services
             {
                 Console.Error.WriteLine("{0}: {1}", e.ToString(), e.Message);
             }       
+        }
+        public void SendCancelMail(string email, string firstName, DateTime datum)
+        {
+            MailMessage mail = new MailMessage();
+            mail.From = fromAddress;
+            mail.To.Add(new MailAddress(email, firstName));
+            mail.Subject = "Uw reservering is geannuleerd";
+            mail.Body = $"Beste {firstName}" + Environment.NewLine + Environment.NewLine +
+                           $"Je ontvangt deze mail, omdat je reservering op {datum.ToString("d")} helaas niet door kan gaan in verband met een beschadigde boot. Alle boten van hetzelfde type zijn voor die dag al gereserveerd" +
+                           Environment.NewLine + Environment.NewLine +
+                           "We verzoeken u om een nieuwe reservering te maken voor een andere datum. Excuus voor het ongemak" + Environment.NewLine + Environment.NewLine +
+                           "Met vriendelijke groeten," + Environment.NewLine +
+                           Environment.NewLine +
+                           "Roeivereniging Roei-je-Rot";
+            try
+            {
+                using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential()
+                    {
+                        UserName = userName,
+                        Password = passWord,
+                    };
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.EnableSsl = true;
+
+                    //smtpClient.Send("targetemail@targetdomain.xyz", "myemail@gmail.com", "Account verification", body);
+                    smtpClient.Send(mail);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("{0}: {1}", e.ToString(), e.Message);
+            }
         }
     }
 }
