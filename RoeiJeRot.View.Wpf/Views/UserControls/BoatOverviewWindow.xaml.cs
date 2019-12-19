@@ -26,9 +26,12 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
     {
         private readonly WindowManager _windowManager;
 
+        private readonly IBoatService _boatService;
+
         public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager)
         {
             _windowManager = windowManager;
+            _boatService = boatService;
             InitializeComponent();
             SetBoatData(boatService);
             DeviceDataGrid.ItemsSource = Items;
@@ -52,8 +55,40 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             foreach (var boat in boats) Items.Add(boat);
             
         }
-        public void OnClose()
+        //private void OnReportDamageClick(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (var data in DeviceDataGrid.SelectedItems)
+        //    {
+        //        _boatService.ReportDamage(((BoatTypeViewModel)data).Id);
+        //    }
+
+        //    MessageBox.Show("Schade gemeld");
+        //}
+
+        public void OnReportDamageClick(object sender, RoutedEventArgs args)
         {
+                    var selectedItemObject = DeviceDataGrid.SelectedItem;
+                    if (selectedItemObject == null)
+                    {
+                        MessageBox.Show("Geen boot geselecteerd");
+                        return;
+                    }
+
+                    var selectedType = (BoatTypeViewModel)selectedItemObject;
+
+                    if (selectedItemObject != null)
+                    {
+                        bool result = _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
+                        
+                        if (result)
+                        {
+                            MessageBox.Show("Schade gemeld");
+                        }
+                        else MessageBox.Show("Schade niet gemeld");
+                    }
+                }
+            }
         }
-    }
-}
+
+    
+
