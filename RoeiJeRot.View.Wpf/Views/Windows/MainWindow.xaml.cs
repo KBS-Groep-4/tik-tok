@@ -5,11 +5,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
 using RoeiJeRot.View.Wpf.Views.UserControls;
+using Type = RoeiJeRot.View.Wpf.Views.UserControls.Type;
 using Window = System.Windows.Window;
 
 namespace RoeiJeRot.View.Wpf.Views.Windows
@@ -67,8 +69,9 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         {
             if (e.Source is Button)
             {
-                _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
-                    .CreateInstance<ReservationOverviewScreen>());
+                ReservationOverviewScreen ros = InstanceCreator.Instance.CreateInstance<ReservationOverviewScreen>();
+                ros.StatusMessageUpdate += OnStatusMessageUpdate;
+                _windowManager.CurrentWindow.PushEmbeddedScreen(ros);
             }
 
             OnScreenUpdate();
@@ -78,8 +81,9 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         {
             if (e.Source is Button)
             {
-                _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
-                    .CreateInstance<ReservationScreen>());
+                ReservationScreen rs = InstanceCreator.Instance.CreateInstance<ReservationScreen>();
+                rs.StatusMessageUpdate += OnStatusMessageUpdate;
+                _windowManager.CurrentWindow.PushEmbeddedScreen(rs);
             }
 
             OnScreenUpdate();
@@ -103,6 +107,23 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         private void OnLogout(object sender, RoutedEventArgs e)
         {
             _windowManager.Logout();
+        }
+
+        private void OnStatusMessageUpdate(Object sender, MessageArgs args)
+        {
+            StatusLabel.Content = args.Message;
+            switch (args.Type)
+            {
+                case Type.Red:
+                    StatusLabel.Background = Brushes.Red;
+                    StatusLabel.BorderBrush = Brushes.Red;
+                    break;
+                case Type.Green:
+                    StatusLabel.Background = Brushes.LimeGreen;
+                    StatusLabel.BorderBrush = Brushes.LimeGreen;
+                    break;
+            }
+            OnScreenUpdate();
         }
 
         private void OnScreenUpdate()
