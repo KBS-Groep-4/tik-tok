@@ -111,17 +111,13 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         private void OnStatusMessageUpdate(Object sender, MessageArgs args)
         {
             StatusLabel.Content = args.Message;
-            switch (args.Error)
+            switch (args.Type)
             {
-                case "error":
+                case 1:
                     StatusLabel.Background = Brushes.Red;
                     StatusLabel.BorderBrush = Brushes.Red;
                     break;
-                case "succeed":
-                    StatusLabel.Background = Brushes.LimeGreen;
-                    StatusLabel.BorderBrush = Brushes.LimeGreen;
-                    break;
-                case "cancel":
+                case 2:
                     StatusLabel.Background = Brushes.LimeGreen;
                     StatusLabel.BorderBrush = Brushes.LimeGreen;
                     break;
