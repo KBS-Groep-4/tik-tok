@@ -14,7 +14,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
 
-    <Grid Height="487">
+    <Grid Height="600">
         <Grid.RowDefinitions>
             <RowDefinition Height="34"></RowDefinition>
             <RowDefinition Height="700"></RowDefinition>
@@ -23,7 +23,7 @@
 
         <DataGrid ItemsSource="{Binding Items}" x:Name="DeviceDataGrid" AutoGenerateColumns="False" Background="White"
                   EnableRowVirtualization="True" RowDetailsVisibilityMode="VisibleWhenSelected" MinColumnWidth="150"
-                  Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="0" Height="452" VerticalAlignment="Top">
+                  Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="0" Height="500" VerticalAlignment="Top">
             <DataGrid.Columns >
                 <DataGridTextColumn x:Name="Id" Binding="{Binding Id}" Header="Boot ID" Width="Auto" />
                 <DataGridTextColumn x:Name="PossiblePassengers" Binding="{Binding PossiblePassengers}"
@@ -32,20 +32,27 @@
                                     Header="Ervaring level" Width="*" />
                 <DataGridTextColumn x:Name="Name" Binding="{Binding Name}"
                                     Header="Boot naam" Width="*" />
-                
                 <DataGridTextColumn x:Name="HasCommanderSeat" Binding="{Binding HasCommanderSeat}"
                                      Header="Aanvoerders stoel" Width="*" />
-                
+                <DataGridTextColumn x:Name="Status" Binding="{Binding Status}"
+                                     Header="Status" Width="*" />
+
             </DataGrid.Columns>
         </DataGrid>
+
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Margin="5, 5, 5, 5" Name="ReportDamageButton" Background="Red" BorderBrush="Transparent" Click="OnReportDamageClick">
+            <Button Grid.Column="1" Margin="0,350,10,-46" Name="ReportDamageButton" Background="Red" BorderBrush="Transparent" Click="OnReportDamageClick">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Meld Schade"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="490,532,10,136" Name="DisableDamage" Background="Green" BorderBrush="Transparent" Click="OnDisableDamageClick">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Geef Schade Vrij"/>
                 </StackPanel>
             </Button>
         </Grid>

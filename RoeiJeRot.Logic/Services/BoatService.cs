@@ -38,7 +38,6 @@ namespace RoeiJeRot.Logic.Services
         /// <param name="duration"></param>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        List<SailingBoat> GetAvailableBoats(DateTime reservationDate, TimeSpan duration);
         bool ReportDamage(int boatType, int memberId, DateTime datum);
     }
 

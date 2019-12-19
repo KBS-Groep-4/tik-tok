@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RoeiJeRot.Logic;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.ViewModels;
@@ -25,12 +26,13 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
     public partial class BoatOverviewWindow : CustomUserControl
     {
         private readonly WindowManager _windowManager;
-
+        private readonly IReservationService _reservationService;
         private readonly IBoatService _boatService;
 
-        public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager)
+        public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager, IReservationService reservationService)
         {
             _windowManager = windowManager;
+            _reservationService = reservationService;
             _boatService = boatService;
             InitializeComponent();
             SetBoatData(boatService);
@@ -43,6 +45,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         // Set data for the reservations view.
         public void SetBoatData(IBoatService boatService)
         {
+            Items.Clear();
             var boats = boatService.GetAllBoats()
                 .Select(r => new BoatTypeViewModel
                 {
@@ -50,45 +53,75 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                     PossiblePassengers = r.BoatType.PossiblePassengers,
                     RequiredLevel = r.BoatType.RequiredLevel,
                     Name = r.BoatType.Name,
-                    HasCommanderSeat = r.BoatType.HasCommanderSeat
+                    HasCommanderSeat = r.BoatType.HasCommanderSeat.ToString(),
+                    Status = r.Status.ToString()
                 }).ToList();
-            foreach (var boat in boats) Items.Add(boat);
-            
-        }
-        //private void OnReportDamageClick(object sender, RoutedEventArgs e)
-        //{
-        //    foreach (var data in DeviceDataGrid.SelectedItems)
-        //    {
-        //        _boatService.ReportDamage(((BoatTypeViewModel)data).Id);
-        //    }
-
-        //    MessageBox.Show("Schade gemeld");
-        //}
-
-        public void OnReportDamageClick(object sender, RoutedEventArgs args)
-        {
-                    var selectedItemObject = DeviceDataGrid.SelectedItem;
-                    if (selectedItemObject == null)
-                    {
-                        MessageBox.Show("Geen boot geselecteerd");
-                        return;
-                    }
-
-                    var selectedType = (BoatTypeViewModel)selectedItemObject;
-
-                    if (selectedItemObject != null)
-                    {
-                        bool result = _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
-                        
-                        if (result)
-                        {
-                            MessageBox.Show("Schade gemeld");
-                        }
-                        else MessageBox.Show("Schade niet gemeld");
-                    }
+            foreach (var boat in boats)
+            {
+                var status = (BoatState)Enum.Parse(typeof(BoatState), boat.Status);
+                if (status == BoatState.InUse || status == BoatState.InStock)
+                {
+                    if (status == BoatState.InUse) boat.Status = "In gebruik";
+                    if (status == BoatState.InStock) boat.Status = "In magazijn";
+                    if (status == BoatState.InService) boat.Status = "Schade";
+                    if (boat.HasCommanderSeat.Equals("True")) boat.HasCommanderSeat = "Ja";
+                    if (boat.HasCommanderSeat.Equals("False")) boat.HasCommanderSeat = "Nee";
+                    Items.Add(boat);
                 }
             }
         }
+
+        public void OnReportDamageClick(object sender, RoutedEventArgs args)
+        {
+            var selectedItemObject = DeviceDataGrid.SelectedItem;
+            if (selectedItemObject == null)
+            {
+                MessageBox.Show("Geen boot geselecteerd");
+                return;
+            }
+
+            var selectedType = (BoatTypeViewModel)selectedItemObject;
+
+            if (selectedItemObject != null)
+            {
+                bool result = _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
+
+                if (result)
+                {
+                    _boatService.UpdateBoatStatus(selectedType.Id, BoatState.InService);
+                    var listresult = _reservationService.AllocateBoatReservations(selectedType.Id);
+                    MessageBox.Show($"Schade gemeld, {listresult.Count()} reservering(en) konden niet omgezet worden. Er is een mail gestuurd aan deze leden");
+                    SetBoatData(_boatService);
+                }
+                else MessageBox.Show("Schade niet gemeld");
+            }
+        }
+        public void OnDisableDamageClick(object sender, RoutedEventArgs args)
+        {
+            var selectedItemObject = DeviceDataGrid.SelectedItem;
+            if (selectedItemObject == null)
+            {
+                MessageBox.Show("Geen boot geselecteerd");
+                return;
+            }
+            var selectedType = (BoatTypeViewModel)selectedItemObject;
+
+            if (selectedItemObject != null)
+            {
+                bool result = _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
+
+                if (result)
+                {
+                    _boatService.UpdateBoatStatus(selectedType.Id, BoatState.InStock);
+                    MessageBox.Show($"Boot {selectedType.Id} vrij gegeven");
+                    SetBoatData(_boatService);
+                }
+                else MessageBox.Show("Schade niet afgemeld");
+            }
+        }
+    }
+}
+
 
     
 
