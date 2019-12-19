@@ -40,12 +40,12 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="239"/>
-                    <ColumnDefinition Width="479"/>
+                    <ColumnDefinition Width="237"/>
+                    <ColumnDefinition Width="481"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical" Margin="10,10,10,4" Grid.Column="0">
                     <Label Content="Beschikbare Tijden" FontSize="25" />
-                    <ListView Margin="5" Name="AvailableTimes" FontWeight="bold">
+                    <ListView Margin="5" Name="AvailableTimes" FontWeight="bold" Height="400" SelectionMode="Single">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Tijd" Width="80" DisplayMemberBinding="{Binding Time}" />
@@ -55,11 +55,11 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,10,10,4" Grid.Column="1">
                     <Label Content="Beschikbare Boten" FontSize="25" />
-                    <ListView Margin="5" Name="AvailableBoats" FontWeight="bold">
+                    <ListView Margin="5" Name="AvailableBoats" FontWeight="bold" Height="400" SelectionMode="Single" SelectionChanged="OnBoatTypeChange">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Niveau" Width="80" DisplayMemberBinding="{Binding RequiredLevel}" />
-                                <GridViewColumn Header="Naam" Width="300" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="Naam" Width="260" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Header="Plaatsen" Width="90" DisplayMemberBinding="{Binding PossiblePassengers}" />
                             </GridView>
                         </ListView.View>
