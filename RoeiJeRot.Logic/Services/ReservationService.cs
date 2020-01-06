@@ -51,14 +51,12 @@ namespace RoeiJeRot.Logic.Services
     public class ReservationService : IReservationService
     {
         private readonly IBoatService _boatService;
-        private readonly IMailService _mailService;
         private readonly RoeiJeRotDbContext _context;
 
-        public ReservationService(RoeiJeRotDbContext context, IBoatService boatService, IMailService mailService)
+        public ReservationService(RoeiJeRotDbContext context, IBoatService boatService)
         {
             _context = context;
             _boatService = boatService;
-            _mailService = mailService;
         }
 
 
