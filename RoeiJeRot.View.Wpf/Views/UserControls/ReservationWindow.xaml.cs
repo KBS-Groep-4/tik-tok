@@ -30,7 +30,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             InitializeComponent();
             When.SelectedDate = DateTime.Today;
 
-            UpdateTimeAvailableTypes();
+            UpdateDictionary();
 
             SetReservationData();
             DeviceDataGrid.ItemsSource = Items;
@@ -80,7 +80,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 
                         if (msg.IsValid)
                         {
-                            UpdateBoatTypeList();
+                            UpdateDictionary();
                             SetReservationData();
                         }
                     }
@@ -89,7 +89,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 
         public void OnReservationDetailChange(object sender, EventArgs args)
         {
-            UpdateTimeAvailableTypes();
+            UpdateDictionary();
         }
 
         public void OnBoatTypeChange(object sender, EventArgs args)
@@ -172,7 +172,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         }
 
         // Updates the dictionary
-        public void UpdateTimeAvailableTypes()
+        public void UpdateDictionary()
         {
             TimeAvailableTypes = new Dictionary<TimeSpan, List<BoatType>>();
             if (When.SelectedDate.HasValue)
