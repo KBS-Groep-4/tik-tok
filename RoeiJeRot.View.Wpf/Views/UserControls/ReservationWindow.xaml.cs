@@ -174,7 +174,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 {
                     var duration = TimeSpan.FromMinutes(durationInt);
                     for (var i = TimeSpan.Zero; i < new TimeSpan(0, 23, 59, 0); i += TimeSpan.FromMinutes(15))
-                        if (DayChecker.IsDay(When.SelectedDate.Value + i, duration))
+                        if (ReservationConstraints.IsValid(When.SelectedDate.Value + i, duration, _reservationService, _windowManager.UserSession.UserId).IsValid)
                         {
                             var availableTypes =
                                 _reservationService.AvailableBoatTypes(When.SelectedDate.Value + i, duration);

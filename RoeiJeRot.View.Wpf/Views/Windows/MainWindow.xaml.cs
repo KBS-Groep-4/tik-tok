@@ -88,8 +88,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         private void OnBoatOverviewClick(object sender, RoutedEventArgs e)
         {
             if (e.Source is Button)
-                _windowManager.CurrentWindow.PushEmbeddedScreen(InstanceCreator.Instance
-                    .CreateInstance<BoatOverviewWindow>());
+                _windowManager.CurrentWindow.PushEmbeddedScreen(_windowManager.GetService<BoatOverviewWindow>());
 
             OnScreenUpdate();
         }

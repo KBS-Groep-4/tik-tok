@@ -14,7 +14,7 @@ namespace RoeiJeRot.Logic.Helper
         {
             var solar = GetSolorTimes(date);
 
-            return date < solar.Sunset && date > solar.Sunrise && date + duration < solar.Sunset;
+            return  date < solar.Sunset && date > solar.Sunrise && date + duration < solar.Sunset;
         }
     }
 }

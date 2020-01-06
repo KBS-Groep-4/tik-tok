@@ -31,6 +31,8 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             DeviceDataGrid.ItemsSource = Items;
         }
 
+        public event EventHandler<MessageArgs> StatusMessageUpdate;
+
         public ObservableCollection<BoatTypeViewModel> Items { get; set; } =
             new ObservableCollection<BoatTypeViewModel>();
 
@@ -66,7 +68,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             var selectedItemObject = DeviceDataGrid.SelectedItem;
             if (selectedItemObject == null)
             {
-                MessageBox.Show("Geen boot geselecteerd");
+                StatusMessageUpdate?.Invoke(this, new MessageArgs("Geen boot geselecteerd", Type.Red));
                 return;
             }
 
@@ -84,13 +86,13 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                     foreach (var reservation in listresult)
                         _mailService.SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName,
                             reservation.Date);
-                    MessageBox.Show(
-                        $"Schade gemeld, {listresult.Count()} reservering(en) konden niet omgezet worden. Er is een mail gestuurd aan deze leden");
+                    StatusMessageUpdate?.Invoke(this, new MessageArgs($"Schade gemeld", Type.Green));
+         
                     SetBoatData(_boatService);
                 }
                 else
                 {
-                    MessageBox.Show("Schade niet gemeld");
+                    StatusMessageUpdate?.Invoke(this, new MessageArgs("Schade niet gemeld", Type.Red));
                 }
             }
         }
@@ -101,7 +103,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             var selectedItemObject = DeviceDataGrid.SelectedItem;
             if (selectedItemObject == null)
             {
-                MessageBox.Show("Geen boot geselecteerd");
+                StatusMessageUpdate?.Invoke(this, new MessageArgs("Geen boot geselecteerd", Type.Red));
                 return;
             }
 
@@ -115,12 +117,12 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 if (result)
                 {
                     _boatService.UpdateBoatStatus(selectedType.Id, BoatState.InStock);
-                    MessageBox.Show($"Boot {selectedType.Id} vrij gegeven");
+                    StatusMessageUpdate?.Invoke(this, new MessageArgs($"Boot {selectedType.Id} vrij gegeven", Type.Green));
                     SetBoatData(_boatService);
                 }
                 else
                 {
-                    MessageBox.Show("Schade niet afgemeld");
+                    StatusMessageUpdate?.Invoke(this, new MessageArgs("Schade niet afgemeld.", Type.Red));
                 }
             }
         }

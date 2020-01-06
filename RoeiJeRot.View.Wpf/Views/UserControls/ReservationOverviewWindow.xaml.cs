@@ -78,6 +78,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 var model = (ReservationViewModel) data;
                 _mailService.SendCancelConfirmation(model.Email, model.FirstName, model.ReservationDate);
                 _reservationService.CancelReservation(model.Id);
+                toRemoveModel.Add(model);
             }
 
             StatusMessageUpdate?.Invoke(this, new MessageArgs("Reservering(en) verwijderd.", Type.Green));

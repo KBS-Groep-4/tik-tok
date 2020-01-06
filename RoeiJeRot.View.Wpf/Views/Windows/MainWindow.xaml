@@ -15,13 +15,17 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}" Icon="/RoeiJeRot.View.Wpf;component/Resources/logo.png">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="53*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="24*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,42" Grid.RowSpan="2">
             <components:HeaderBar x:Name="headerBar" DockPanel.Dock="Top"
                                   Width="{Binding ActualWidth, ElementName=window}" Height="40" />
             <StackPanel x:Name="pnlPageButtons" DockPanel.Dock="Left" Width="322">
@@ -48,6 +52,6 @@
             </Grid>
         </DockPanel>
         <Label x:Name="StatusLabel" Content="Welkom!" Grid.Row="1" Background="#007acc" BorderBrush="#007acc"
-               BorderThickness="1" Foreground="White" FontSize="27" />
+               BorderThickness="1" Foreground="White" FontSize="27" Grid.ColumnSpan="2" />
     </Grid>
 </Window>

@@ -188,6 +188,10 @@ namespace RoeiJeRot.Logic.Services
                 {
                     Console.WriteLine(
                         $"Checking {reserv.Date} - {reserv.Duration} on {reservationDate} - {duration} --> {DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration)}");
+
+                    if ((BoatState) boat.Status != BoatState.InService)
+                        available = false;
+
                     if (!DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration))
                         available = false;
                 }
