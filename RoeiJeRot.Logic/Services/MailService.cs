@@ -1,5 +1,4 @@
-﻿using RoeiJeRot.Logic.Config;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Net.Mail;

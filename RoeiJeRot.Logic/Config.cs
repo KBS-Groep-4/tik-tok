@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace RoeiJeRot.Logic.Config
+namespace RoeiJeRot.Logic
 {
     public interface IConfig
     {

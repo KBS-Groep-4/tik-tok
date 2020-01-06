@@ -69,7 +69,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         {
             if (e.Source is Button)
             {
-                ReservationOverviewScreen ros = InstanceCreator.Instance.CreateInstance<ReservationOverviewScreen>();
+                var ros = _windowManager.GetService<ReservationOverviewScreen>();
                 ros.StatusMessageUpdate += OnStatusMessageUpdate;
                 _windowManager.CurrentWindow.PushEmbeddedScreen(ros);
             }
@@ -81,7 +81,7 @@ namespace RoeiJeRot.View.Wpf.Views.Windows
         {
             if (e.Source is Button)
             {
-                ReservationScreen rs = InstanceCreator.Instance.CreateInstance<ReservationScreen>();
+                var rs = _windowManager.GetService<ReservationScreen>();
                 rs.StatusMessageUpdate += OnStatusMessageUpdate;
                 _windowManager.CurrentWindow.PushEmbeddedScreen(rs);
             }

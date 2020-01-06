@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RoeiJeRot.Database.Database;
-using RoeiJeRot.Logic.Config;
+using RoeiJeRot.Logic;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
 using RoeiJeRot.View.Wpf.Views;
@@ -68,7 +68,7 @@ namespace RoeiJeRot.View.Wpf
             seeder.Seed();
         }
 
-        internal static IHost Host { get; set; }
+        public static IHost Host { get; set; }
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {

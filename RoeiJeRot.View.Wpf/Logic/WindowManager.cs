@@ -101,7 +101,7 @@ namespace RoeiJeRot.View.Wpf.Logic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private T GetService<T>()
+        public T GetService<T>()
         {
             return _host.Services.GetService<T>();
         }
