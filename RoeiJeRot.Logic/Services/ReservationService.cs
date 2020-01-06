@@ -184,19 +184,17 @@ namespace RoeiJeRot.Logic.Services
             foreach (var boat in boats)
             {
                 var available = true;
-                foreach (var reserv in boat.SailingReservations)
+
+                if ((BoatState)boat.Status != BoatState.InService)
                 {
-                    Console.WriteLine(
-                        $"Checking {reserv.Date} - {reserv.Duration} on {reservationDate} - {duration} --> {DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration)}");
+                    foreach (var reserv in boat.SailingReservations)
+                    {
+                        if (!DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration))
+                            available = false;
+                    }
 
-                    if ((BoatState) boat.Status != BoatState.InService)
-                        available = false;
-
-                    if (!DateChecker.AvailableOn(reserv.Date, reserv.Duration, reservationDate, duration))
-                        available = false;
+                    if (available) availableBoats.Add(boat);
                 }
-
-                if (available) availableBoats.Add(boat);
             }
 
             return availableBoats;

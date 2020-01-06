@@ -31,7 +31,7 @@
             <StackPanel x:Name="pnlPageButtons" DockPanel.Dock="Left" Width="322">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}">
-                        <Setter Property="Margin" Value="0,10,0,10" />
+                        <Setter Property="Margin" Value="5,10,0,10" />
                         <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="Background" Value="#FF13A9FF" />
                         <Setter Property="Foreground" Value="White" />

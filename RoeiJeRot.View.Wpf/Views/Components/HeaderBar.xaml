@@ -41,8 +41,8 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Foreground="White" Click="Close_Click" Content="&#xE106;" FontFamily="Segoe MDL2 Assets"
-                    FontSize="10" Padding="15,10" Background="Transparent" BorderBrush="Transparent" />
+            <Button  Foreground="White" Click="Close_Click" Content="&#xE106;" FontFamily="Segoe MDL2 Assets"
+                    FontSize="10" Padding="15,10" Background="Red" BorderBrush="Transparent" />
         </StackPanel>
     </Grid>
 </UserControl>

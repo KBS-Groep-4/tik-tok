@@ -77,6 +77,12 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
 
                         StatusMessageUpdate?.Invoke(this,
                             new MessageArgs(msg.Reason, msg.IsValid ? Type.Green : Type.Red));
+
+                        if (msg.IsValid)
+                        {
+                            UpdateBoatTypeList();
+                            SetReservationData();
+                        }
                     }
             }
         }
