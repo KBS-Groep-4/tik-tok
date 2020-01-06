@@ -24,6 +24,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             _windowManager = windowManager;
             _reservationService = reservationService;
             _boatService = boatService;
+            _mailService = mailService;
             InitializeComponent();
             SetBoatData(boatService);
             DeviceDataGrid.ItemsSource = Items;
