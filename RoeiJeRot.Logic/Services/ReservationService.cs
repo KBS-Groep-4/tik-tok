@@ -173,11 +173,6 @@ namespace RoeiJeRot.Logic.Services
                 _context.Remove(reservation);
                 _context.SaveChanges();
             }
-
-            foreach (SailingReservation reservation in notReAllocatable)
-            {
-                _mailService.SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName, reservation.Date);
-            }
             return notReAllocatable;
         }
 

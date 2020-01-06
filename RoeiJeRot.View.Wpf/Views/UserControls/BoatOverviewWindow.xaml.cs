@@ -17,8 +17,9 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         private readonly WindowManager _windowManager;
         private readonly IReservationService _reservationService;
         private readonly IBoatService _boatService;
+        private readonly IMailService _mailService;
 
-        public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager, IReservationService reservationService)
+        public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager, IReservationService reservationService, IMailService mailService)
         {
             _windowManager = windowManager;
             _reservationService = reservationService;
@@ -31,7 +32,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
         public ObservableCollection<BoatTypeViewModel> Items { get; set; } =
             new ObservableCollection<BoatTypeViewModel>();
 
-        // Set data for the reservations view.
+        // Set data for the boat view.
         public void SetBoatData(IBoatService boatService)
         {
             Items.Clear();
@@ -57,6 +58,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
             }
         }
 
+        // Damage report button
         public void OnReportDamageClick(object sender, RoutedEventArgs args)
         {
             var selectedItemObject = DeviceDataGrid.SelectedItem;
@@ -76,12 +78,18 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 {
                     _boatService.UpdateBoatStatus(selectedType.Id, BoatState.InService);
                     var listresult = _reservationService.AllocateBoatReservations(selectedType.Id);
+                    foreach (var reservation in listresult)
+                    {
+                        _mailService.SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName, reservation.Date);
+                    }
                     MessageBox.Show($"Schade gemeld, {listresult.Count()} reservering(en) konden niet omgezet worden. Er is een mail gestuurd aan deze leden");
                     SetBoatData(_boatService);
                 }
                 else MessageBox.Show("Schade niet gemeld");
             }
         }
+
+        //Report damage free
         public void OnDisableDamageClick(object sender, RoutedEventArgs args)
         {
             var selectedItemObject = DeviceDataGrid.SelectedItem;
