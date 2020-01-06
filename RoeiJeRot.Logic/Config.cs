@@ -8,6 +8,7 @@ namespace RoeiJeRot.Logic
         ///     Connection string to the database endpoint.
         /// </summary>
         string ConnectionString { get; }
+
         string Email { get; }
 
         string Secret { get; }
@@ -24,6 +25,7 @@ namespace RoeiJeRot.Logic
 
         /// <inheritdoc />
         public string ConnectionString => _configuration["connectionString"];
+
         public string Email => _configuration["email"];
         public string Secret => _configuration["password"];
     }

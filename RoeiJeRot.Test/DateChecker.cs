@@ -1,7 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
 using RoeiJeRot.Logic;
-using RoeiJeRot.Logic.Services;
 
 namespace RoeiJeRot.Test
 {

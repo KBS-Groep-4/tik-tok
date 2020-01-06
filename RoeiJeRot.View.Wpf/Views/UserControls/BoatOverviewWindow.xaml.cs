@@ -1,11 +1,11 @@
-﻿using RoeiJeRot.Logic;
-using RoeiJeRot.Logic.Services;
-using RoeiJeRot.View.Wpf.Logic;
-using RoeiJeRot.View.Wpf.ViewModels;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using RoeiJeRot.Logic;
+using RoeiJeRot.Logic.Services;
+using RoeiJeRot.View.Wpf.Logic;
+using RoeiJeRot.View.Wpf.ViewModels;
 
 namespace RoeiJeRot.View.Wpf.Views.UserControls
 {
@@ -14,12 +14,13 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
     /// </summary>
     public partial class BoatOverviewWindow : CustomUserControl
     {
-        private readonly WindowManager _windowManager;
-        private readonly IReservationService _reservationService;
         private readonly IBoatService _boatService;
         private readonly IMailService _mailService;
+        private readonly IReservationService _reservationService;
+        private readonly WindowManager _windowManager;
 
-        public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager, IReservationService reservationService, IMailService mailService)
+        public BoatOverviewWindow(IBoatService boatService, WindowManager windowManager,
+            IReservationService reservationService, IMailService mailService)
         {
             _windowManager = windowManager;
             _reservationService = reservationService;
@@ -49,7 +50,7 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 }).ToList();
             foreach (var boat in boats)
             {
-                var status = (BoatState)Enum.Parse(typeof(BoatState), boat.Status);
+                var status = (BoatState) Enum.Parse(typeof(BoatState), boat.Status);
                 if (status == BoatState.InUse) boat.Status = "In gebruik";
                 if (status == BoatState.InStock) boat.Status = "In magazijn";
                 if (status == BoatState.InService) boat.Status = "Schade";
@@ -69,24 +70,28 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 return;
             }
 
-            var selectedType = (BoatTypeViewModel)selectedItemObject;
+            var selectedType = (BoatTypeViewModel) selectedItemObject;
 
             if (selectedItemObject != null)
             {
-                bool result = _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
+                var result =
+                    _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
 
                 if (result)
                 {
                     _boatService.UpdateBoatStatus(selectedType.Id, BoatState.InService);
                     var listresult = _reservationService.AllocateBoatReservations(selectedType.Id);
                     foreach (var reservation in listresult)
-                    {
-                        _mailService.SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName, reservation.Date);
-                    }
-                    MessageBox.Show($"Schade gemeld, {listresult.Count()} reservering(en) konden niet omgezet worden. Er is een mail gestuurd aan deze leden");
+                        _mailService.SendCancelMail(reservation.ReservedBy.Email, reservation.ReservedBy.FirstName,
+                            reservation.Date);
+                    MessageBox.Show(
+                        $"Schade gemeld, {listresult.Count()} reservering(en) konden niet omgezet worden. Er is een mail gestuurd aan deze leden");
                     SetBoatData(_boatService);
                 }
-                else MessageBox.Show("Schade niet gemeld");
+                else
+                {
+                    MessageBox.Show("Schade niet gemeld");
+                }
             }
         }
 
@@ -99,11 +104,13 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                 MessageBox.Show("Geen boot geselecteerd");
                 return;
             }
-            var selectedType = (BoatTypeViewModel)selectedItemObject;
+
+            var selectedType = (BoatTypeViewModel) selectedItemObject;
 
             if (selectedItemObject != null)
             {
-                bool result = _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
+                var result =
+                    _boatService.ReportDamage(selectedType.Id, _windowManager.UserSession.UserId, DateTime.Now);
 
                 if (result)
                 {
@@ -111,12 +118,11 @@ namespace RoeiJeRot.View.Wpf.Views.UserControls
                     MessageBox.Show($"Boot {selectedType.Id} vrij gegeven");
                     SetBoatData(_boatService);
                 }
-                else MessageBox.Show("Schade niet afgemeld");
+                else
+                {
+                    MessageBox.Show("Schade niet afgemeld");
+                }
             }
         }
     }
 }
-
-
-
-

@@ -8,38 +8,32 @@ namespace RoeiJeRot.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "boat_types",
-                columns: table => new
+                "boat_types",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PossiblePassengers = table.Column<int>(nullable: false),
-                    RequiredLevel = table.Column<int>(nullable: false),
+                    PossiblePassengers = table.Column<int>(),
+                    RequiredLevel = table.Column<int>(),
                     Name = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_boat_types", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_boat_types", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "permissions",
-                columns: table => new
+                "permissions",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_permissions", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_permissions", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
+                "users",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
@@ -47,245 +41,242 @@ namespace RoeiJeRot.Database.Migrations
                     HouseNumber = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true),
-                    SailingLevel = table.Column<int>(nullable: false),
+                    SailingLevel = table.Column<int>(),
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_users", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "sailing_boats",
-                columns: table => new
+                "sailing_boats",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<int>(nullable: false),
-                    BoatTypeId = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(),
+                    BoatTypeId = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_sailing_boats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_sailing_boats_boat_types_BoatTypeId",
-                        column: x => x.BoatTypeId,
-                        principalTable: "boat_types",
-                        principalColumn: "Id",
+                        "FK_sailing_boats_boat_types_BoatTypeId",
+                        x => x.BoatTypeId,
+                        "boat_types",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_permissions",
-                columns: table => new
+                "user_permissions",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PermissionId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    PermissionId = table.Column<int>(),
+                    UserId = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user_permissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_user_permissions_permissions_PermissionId",
-                        column: x => x.PermissionId,
-                        principalTable: "permissions",
-                        principalColumn: "Id",
+                        "FK_user_permissions_permissions_PermissionId",
+                        x => x.PermissionId,
+                        "permissions",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_user_permissions_users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "users",
-                        principalColumn: "Id",
+                        "FK_user_permissions_users_UserId",
+                        x => x.UserId,
+                        "users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "sailing_boat_damage_reports",
-                columns: table => new
+                "sailing_boat_damage_reports",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DamagedSailingBoatId = table.Column<int>(nullable: false),
-                    DamagedById = table.Column<int>(nullable: false),
-                    DamagedAtDate = table.Column<DateTime>(nullable: false),
+                    DamagedSailingBoatId = table.Column<int>(),
+                    DamagedById = table.Column<int>(),
+                    DamagedAtDate = table.Column<DateTime>(),
                     DamageFixedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_sailing_boat_damage_reports", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_sailing_boat_damage_reports_users_DamagedById",
-                        column: x => x.DamagedById,
-                        principalTable: "users",
-                        principalColumn: "Id",
+                        "FK_sailing_boat_damage_reports_users_DamagedById",
+                        x => x.DamagedById,
+                        "users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_sailing_boat_damage_reports_sailing_boats_DamagedSailingBoatId",
-                        column: x => x.DamagedSailingBoatId,
-                        principalTable: "sailing_boats",
-                        principalColumn: "Id",
+                        "FK_sailing_boat_damage_reports_sailing_boats_DamagedSailingBoatId",
+                        x => x.DamagedSailingBoatId,
+                        "sailing_boats",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "sailing_reservations",
-                columns: table => new
+                "sailing_reservations",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(nullable: false),
-                    Duration = table.Column<TimeSpan>(nullable: false),
-                    ReservedByUserId = table.Column<int>(nullable: false),
-                    ReservedSailingBoatId = table.Column<int>(nullable: false)
+                    Date = table.Column<DateTime>(),
+                    Duration = table.Column<TimeSpan>(),
+                    ReservedByUserId = table.Column<int>(),
+                    ReservedSailingBoatId = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_sailing_reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_sailing_reservations_users_ReservedByUserId",
-                        column: x => x.ReservedByUserId,
-                        principalTable: "users",
-                        principalColumn: "Id",
+                        "FK_sailing_reservations_users_ReservedByUserId",
+                        x => x.ReservedByUserId,
+                        "users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_sailing_reservations_sailing_boats_ReservedSailingBoatId",
-                        column: x => x.ReservedSailingBoatId,
-                        principalTable: "sailing_boats",
-                        principalColumn: "Id",
+                        "FK_sailing_reservations_sailing_boats_ReservedSailingBoatId",
+                        x => x.ReservedSailingBoatId,
+                        "sailing_boats",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "sailing_competitions",
-                columns: table => new
+                "sailing_competitions",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(nullable: false),
+                    Date = table.Column<DateTime>(),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    ReservationId = table.Column<int>(nullable: false)
+                    ReservationId = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_sailing_competitions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_sailing_competitions_sailing_reservations_ReservationId",
-                        column: x => x.ReservationId,
-                        principalTable: "sailing_reservations",
-                        principalColumn: "Id",
+                        "FK_sailing_competitions_sailing_reservations_ReservationId",
+                        x => x.ReservationId,
+                        "sailing_reservations",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "sailing_competition_participants",
-                columns: table => new
+                "sailing_competition_participants",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SailingCompetitionId = table.Column<int>(nullable: false),
-                    ParticipantId = table.Column<int>(nullable: false)
+                    SailingCompetitionId = table.Column<int>(),
+                    ParticipantId = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_sailing_competition_participants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_sailing_competition_participants_users_ParticipantId",
-                        column: x => x.ParticipantId,
-                        principalTable: "users",
-                        principalColumn: "Id",
+                        "FK_sailing_competition_participants_users_ParticipantId",
+                        x => x.ParticipantId,
+                        "users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_sailing_competition_participants_sailing_competitions_SailingCompetitionId",
-                        column: x => x.SailingCompetitionId,
-                        principalTable: "sailing_competitions",
-                        principalColumn: "Id",
+                        "FK_sailing_competition_participants_sailing_competitions_SailingCompetitionId",
+                        x => x.SailingCompetitionId,
+                        "sailing_competitions",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_boat_damage_reports_DamagedById",
-                table: "sailing_boat_damage_reports",
-                column: "DamagedById");
+                "IX_sailing_boat_damage_reports_DamagedById",
+                "sailing_boat_damage_reports",
+                "DamagedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_boat_damage_reports_DamagedSailingBoatId",
-                table: "sailing_boat_damage_reports",
-                column: "DamagedSailingBoatId");
+                "IX_sailing_boat_damage_reports_DamagedSailingBoatId",
+                "sailing_boat_damage_reports",
+                "DamagedSailingBoatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_boats_BoatTypeId",
-                table: "sailing_boats",
-                column: "BoatTypeId");
+                "IX_sailing_boats_BoatTypeId",
+                "sailing_boats",
+                "BoatTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_competition_participants_ParticipantId",
-                table: "sailing_competition_participants",
-                column: "ParticipantId");
+                "IX_sailing_competition_participants_ParticipantId",
+                "sailing_competition_participants",
+                "ParticipantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_competition_participants_SailingCompetitionId",
-                table: "sailing_competition_participants",
-                column: "SailingCompetitionId");
+                "IX_sailing_competition_participants_SailingCompetitionId",
+                "sailing_competition_participants",
+                "SailingCompetitionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_competitions_ReservationId",
-                table: "sailing_competitions",
-                column: "ReservationId");
+                "IX_sailing_competitions_ReservationId",
+                "sailing_competitions",
+                "ReservationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_reservations_ReservedByUserId",
-                table: "sailing_reservations",
-                column: "ReservedByUserId");
+                "IX_sailing_reservations_ReservedByUserId",
+                "sailing_reservations",
+                "ReservedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sailing_reservations_ReservedSailingBoatId",
-                table: "sailing_reservations",
-                column: "ReservedSailingBoatId");
+                "IX_sailing_reservations_ReservedSailingBoatId",
+                "sailing_reservations",
+                "ReservedSailingBoatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_permissions_PermissionId",
-                table: "user_permissions",
-                column: "PermissionId");
+                "IX_user_permissions_PermissionId",
+                "user_permissions",
+                "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_permissions_UserId",
-                table: "user_permissions",
-                column: "UserId");
+                "IX_user_permissions_UserId",
+                "user_permissions",
+                "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "sailing_boat_damage_reports");
+                "sailing_boat_damage_reports");
 
             migrationBuilder.DropTable(
-                name: "sailing_competition_participants");
+                "sailing_competition_participants");
 
             migrationBuilder.DropTable(
-                name: "user_permissions");
+                "user_permissions");
 
             migrationBuilder.DropTable(
-                name: "sailing_competitions");
+                "sailing_competitions");
 
             migrationBuilder.DropTable(
-                name: "permissions");
+                "permissions");
 
             migrationBuilder.DropTable(
-                name: "sailing_reservations");
+                "sailing_reservations");
 
             migrationBuilder.DropTable(
-                name: "users");
+                "users");
 
             migrationBuilder.DropTable(
-                name: "sailing_boats");
+                "sailing_boats");
 
             migrationBuilder.DropTable(
-                name: "boat_types");
+                "boat_types");
         }
     }
 }

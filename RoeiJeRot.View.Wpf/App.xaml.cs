@@ -10,7 +10,6 @@ using RoeiJeRot.Database.Database;
 using RoeiJeRot.Logic;
 using RoeiJeRot.Logic.Services;
 using RoeiJeRot.View.Wpf.Logic;
-using RoeiJeRot.View.Wpf.Views;
 using RoeiJeRot.View.Wpf.Views.UserControls;
 using RoeiJeRot.View.Wpf.Views.Windows;
 
@@ -40,26 +39,22 @@ namespace RoeiJeRot.View.Wpf
                                 .AddJsonFile("appsettings.json")
                                 .AddJsonFile($"appsettings.{Environment.MachineName}.json", true)
                                 .Build();
-                            
+
                             opts.UseSqlServer(configuration["connectionString"],
                                 o => o.MigrationsAssembly("LocatieNu.Web.Api"));
                         })
                         .AddSingleton<Window>()
                         .AddSingleton<WindowManager>()
-
                         .AddSingleton<IUserService, UserService>()
                         .AddSingleton<IBoatService, BoatService>()
                         .AddSingleton<IReservationService, ReservationService>()
                         .AddSingleton<IAuthenticationService, AuthenticationService>()
                         .AddScoped<IMailService, MailService>()
-
-
                         .AddTransient<MainWindow>()
                         .AddTransient<LoginWindow>()
                         .AddTransient<ReservationScreen>()
                         .AddTransient<ReservationOverviewScreen>()
                         .AddTransient<BoatOverviewWindow>()
-
                         .AddSingleton<DataSeeder>();
                 })
                 .ConfigureLogging(logging => { logging.AddConsole(); })
